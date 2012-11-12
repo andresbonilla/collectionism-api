@@ -143,3 +143,15 @@ exports.createLot = function(params, done) {
         done(err, res, body);
     });
 }
+
+exports.getLot = function(lot_id, done) {
+    http({
+        method: 'GET',
+        url: url + '/lots/' + lot_id,
+        json: true,
+        body: {}
+    },
+    function (err, res, body) {        
+       done(err, res, body);
+    });
+}

@@ -81,7 +81,11 @@ exports.getUser = function (req, res) {
     }, function (err, user) {
         res.contentType('json');
         if (err) {
-            res.json(err);
+            res.json('400', {
+                error: {
+                    message: 'Bad user id'
+                }
+            });
         } else {
             res.json('200', {
                 user: {

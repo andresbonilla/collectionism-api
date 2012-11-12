@@ -60,5 +60,28 @@ describe('Lot', function () {
         });
 
     });
+    
+    describe('get', function () {
+
+        it('returns lot info for valid lot id', function (done) {
+            Factory.create('lot', function (lot) {
+                helper.getLot(lot._id, function (err, res, body) {
+                    res.statusCode.should.be.equal(200);
+                    body.lot.should.have.property('_id');
+                    body.lot.name.should.equal(lot.name);
+                    done();
+                });
+            });
+        });
+
+        it('returns empty lot for invalid lot id', function (done) {
+            helper.getLot('randomWrongID', function (err, res, body) {
+                res.statusCode.should.be.equal(400);
+                body.error.message.should.equal('Bad lot id');
+                done();
+            });
+        });
+
+    });
 
 })

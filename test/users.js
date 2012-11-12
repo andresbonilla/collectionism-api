@@ -187,8 +187,8 @@ describe('User', function () {
 
         it('returns empty object for invalid user id', function (done) {
             helper.getUser('randomWrongID', function (err, res, body) {
-                res.statusCode.should.be.equal(200);
-                JSON.stringify(body).should.equal('{}');
+                res.statusCode.should.be.equal(400);
+                body.error.message.should.equal('Bad user id');
                 done();
             });
         });
