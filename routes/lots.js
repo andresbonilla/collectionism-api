@@ -49,3 +49,41 @@ exports.getLot = function (req, res) {
         }
     });
 }
+
+// PUT /lots/:id
+exports.updateLot = function (req, res) {
+    helper.authenticate(req, res, function() {
+        res.contentType('json');
+        Lot.findOne({
+            _id: req.params.id
+        }, function (err, lot) {
+            if (err) {
+                res.json(err);
+            } else {
+                if (lot.user_id === req.body.user._id) {
+                    lot.name = req.body.lot.name;
+                    lot.save(function(err) {
+                        if (err) {
+                            res.json('400', {
+                                error: err
+                            });
+                        } else {
+                            res.json('200', {
+                                lot: {
+                                    _id: lot._id,
+                                    name: lot.name
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    res.json('400', {
+                        error:  {
+                            message: 'Lot belongs to different user'
+                        }
+                    });
+                }
+            }
+        });            
+    });
+}

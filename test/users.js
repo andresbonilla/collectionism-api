@@ -200,11 +200,9 @@ describe('User', function () {
                        }
                     },
                     function (err, res, body) {
-                        helper.getUser(user._id, function (err, res, body) {
-                            res.statusCode.should.be.equal(200);
-                            body.user.username.should.equal('brandNewUsername');
-                            done();
-                        });
+                        res.statusCode.should.be.equal(200);
+                        body.user.username.should.equal('brandNewUsername');
+                        done();
                     });
             });
         });

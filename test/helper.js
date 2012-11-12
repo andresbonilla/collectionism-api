@@ -58,13 +58,7 @@ exports.updateUser = function(params, done) {
             method: 'PUT',
             url: url + '/users/' + params.user._id,
             json: true,
-            body: {
-                user: {
-                    _id: params.user._id,
-                    username: params.user.username,
-                    auth_token: params.user.auth_token
-                }
-            }
+            body: params
         },
         function (err, res, body) {
             done(err, res, body);
@@ -76,12 +70,7 @@ exports.signup = function(params, done) {
         method: 'POST',
         url: url + '/signup',
         json: true,
-        body: {
-            user: {
-                username: params.user.username,
-                password: params.user.password
-            }
-        }
+        body: params
     },
     function (err, res, body) {
         done(err, res, body);
@@ -93,12 +82,7 @@ exports.signin = function(params, done) {
         method: 'POST',
         url: url + '/signin',
         json: true,
-        body: {
-            user: {
-                username: params.user.username,
-                password: params.user.password
-            }
-        }
+        body: params
     },
     function (err, res, body) {
         done(err, res, body);
@@ -110,12 +94,7 @@ exports.signout = function(params, done) {
         method: 'POST',
         url: url + '/signout',
         json: true,
-        body: {
-            user: {
-                _id: params.user._id,
-                auth_token: params.user.auth_token
-            }
-        }
+        body: params
     },
     function (err, res, body) {
         done(err, res, body);
@@ -129,15 +108,7 @@ exports.createLot = function(params, done) {
         method: 'POST',
         url: url + '/lots',
         json: true,
-        body: { 
-            user: {
-                _id: params.user._id,
-                auth_token: params.user.auth_token 
-            },
-            lot: {
-                name: params.lot.name
-            }
-        }
+        body: params
     },
     function (err, res, body) {
         done(err, res, body);
@@ -153,5 +124,17 @@ exports.getLot = function(lot_id, done) {
     },
     function (err, res, body) {        
        done(err, res, body);
+    });
+}
+
+exports.updateLot = function(params, done) {
+    http({
+        method: 'PUT',
+        url: url + '/lots/' + params.lot._id,
+        json: true,
+        body: params
+    },
+    function (err, res, body) {
+        done(err, res, body);
     });
 }

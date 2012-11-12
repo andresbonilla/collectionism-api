@@ -30,6 +30,7 @@ app.get('/find/:username', routes.users.findUserByUsername);
 
 app.post('/lots', routes.lots.createLot);
 app.get('/lots/:id', routes.lots.getLot);
+app.put('/lots/:id', routes.lots.updateLot);
 
 
 // Init
