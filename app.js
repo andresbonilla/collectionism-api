@@ -29,6 +29,9 @@ app.get('/users/:id', routes.users.getUser);
 app.get('/find/:username', routes.users.findUserByUsername);
 app.put('/users/:id', routes.users.updateUser);
 
+app.post('/lots', routes.lots.createLot);
+
+
 // Init
 
 app.listen(port = process.env.PORT || 5000);

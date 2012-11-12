@@ -6,8 +6,6 @@ var mongoose  = require('mongoose'),
           url = 'http://localhost:5000',
           app = require('../app');
 	      
-    
-    
 exports.url = url;
   
 exports.cleanDB = function(done) {

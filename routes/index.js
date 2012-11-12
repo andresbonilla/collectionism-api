@@ -3,3 +3,4 @@ var mongoose = require('mongoose'),
           db = mongoose.connect(mongoURI);
 
 exports.users = require('./users');
+exports.lots = require('./lots');
