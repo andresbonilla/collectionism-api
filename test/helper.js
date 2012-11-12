@@ -2,18 +2,25 @@ var mongoose  = require('mongoose'),
 	factories = require('./factories'),
       Factory = require('factory-lady'),
          User = require('../models/User'),
+          Lot = require('../models/Lot'),
          http = require('request'),
           url = 'http://localhost:5000',
           app = require('../app');
+
+/* Util */ 
 	      
 exports.url = url;
   
 exports.cleanDB = function(done) {
     // TODO: find a less hard-coded way to drop all collections
     User.collection.drop(function(err) {
-        done(err);
-    })
+        Lot.collection.drop(function(err) {
+            done(err);
+        });
+    });
 }
+ 
+/* Users */ 
     
 exports.signedInUser = function(done) {
     Factory.create('user', { password: 'secret' }, function (user) {
@@ -107,6 +114,28 @@ exports.signout = function(params, done) {
             user: {
                 _id: params.user._id,
                 auth_token: params.user.auth_token
+            }
+        }
+    },
+    function (err, res, body) {
+        done(err, res, body);
+    });
+}
+
+/* Lots */ 
+
+exports.createLot = function(params, done) {
+    http({
+        method: 'POST',
+        url: url + '/lots',
+        json: true,
+        body: { 
+            user: {
+                _id: params.user._id,
+                auth_token: params.user.auth_token 
+            },
+            lot: {
+                name: params.lot.name
             }
         }
     },

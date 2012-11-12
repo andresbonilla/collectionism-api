@@ -16,18 +16,13 @@ describe('Lot', function () {
         it('creates a new lot given valid attributes and returns it', function (done) {
             helper.signedInUser(function(err, res, body) {
                 var user = body.user;
-                http({
-                    method: 'POST',
-                    url: helper.url + '/lots',
-                    json: true,
-                    body: { 
-                        user: {
-                            _id: user._id,
-                            auth_token: user.auth_token 
-                        },
-                        lot: {
-                            name: 'testLot'
-                        }
+                helper.createLot({
+                    user: {
+                        _id: user._id,
+                        auth_token: user.auth_token 
+                    },
+                    lot: {
+                        name: 'testLot'
                     }
                 },
                 function (err, res, body) {
