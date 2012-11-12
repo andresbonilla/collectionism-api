@@ -138,3 +138,15 @@ exports.updateLot = function(params, done) {
         done(err, res, body);
     });
 }
+
+exports.destroyLot = function(params, done) {
+    http({
+        method: 'DELETE',
+        url: url + '/lots/' + params.lot._id,
+        json: true,
+        body: params
+    },
+    function (err, res, body) {
+        done(err, res, body);
+    });
+}

@@ -87,3 +87,42 @@ exports.updateLot = function (req, res) {
         });            
     });
 }
+
+// DELETE /lots/:id
+exports.destroyLot = function (req, res) {
+    helper.authenticate(req, res, function() {
+        res.contentType('json');
+        Lot.findOne({
+            _id: req.params.id
+        }, function (err, lot) {
+            if (err) {
+                res.json(err);
+            } else {
+                if (lot.user_id === req.body.user._id) {
+                    lot.remove(function(err) {
+                        if (err) {
+                            res.json('400', {
+                                error: err
+                            });
+                        } else {
+                            res.json('200', {
+                                destroyed: {
+                                    lot: {
+                                        _id: lot._id,
+                                        name: lot.name
+                                    }
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    res.json('400', {
+                        error:  {
+                            message: 'Lot belongs to different user'
+                        }
+                    });
+                }
+            }
+        });            
+    });
+}

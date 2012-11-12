@@ -131,5 +131,55 @@ describe('Lot', function () {
         });
         
     });
+    
+    describe('destroy', function () {
+
+        it('destroys a lot for valid params', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;      
+                Factory.create('lot', { 
+                    user_id: user._id 
+                }, function (lot) {
+                    helper.destroyLot({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        lot: {
+                           _id: lot._id,
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(200);
+                        body.destroyed.lot._id.should.equal(lot._id+'');
+                        done();
+                    });
+                });
+            });
+        });
+        
+        it('does not destroy lot for wrong user', function (done) {
+            Factory.create('lot', function (lot) {
+                helper.signedInUser(function (err, res, body) {
+                    var user = body.user;
+                    helper.destroyLot({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        lot: {
+                           _id: lot._id,
+                        }
+                    },
+                    function (err, res, body) {                       
+                        res.statusCode.should.be.equal(400);
+                        body.error.message.should.equal('Lot belongs to different user');
+                        done();
+                    });
+                });
+            });
+        });
+        
+    });
 
 })
