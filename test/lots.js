@@ -34,6 +34,30 @@ describe('Lot', function () {
                 });
             });
         });
+        
+        it('returns validation failure for invalid attributes', function (done) {
+            helper.signedInUser(function(err, res, body) {
+                var user = body.user;
+                helper.createLot({
+                    user: {
+                        _id: user._id,
+                        auth_token: user.auth_token 
+                    },
+                    lot: {
+                        name: ''
+                    }
+                },
+                function (err, res, body) {
+                    res.statusCode.should.be.equal(200);
+                    body.message.should.equal('Validation failed');
+                    body.name.should.equal('ValidationError');
+                    body.should.have.property('errors');
+                    body.errors.name.name.should.equal('ValidatorError');
+                    body.errors.name.type.should.equal('required');
+                    done();
+                });
+            });
+        });
 
     });
 
