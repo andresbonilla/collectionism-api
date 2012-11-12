@@ -15,8 +15,10 @@ exports.authenticate = function(req, res, done) {
             done();
         } else {
             res.contentType('json');
-            res.json('200', {
-                error: 'Bad auth token'
+            res.json('400', {
+                error: {
+                    message: 'Bad auth token'
+                }
             });
         }
     });

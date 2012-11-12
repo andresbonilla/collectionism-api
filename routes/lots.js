@@ -11,7 +11,9 @@ exports.createLot = function (req, res) {
         function (err, lot) {
             res.contentType('json');
             if (err) {
-                res.json(err);
+                res.json('400', {
+                    error: err
+                });
             } else {
                 res.json('201', {
                     lot: {

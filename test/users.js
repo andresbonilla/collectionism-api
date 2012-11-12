@@ -36,12 +36,8 @@ describe('User', function () {
                 }
             },
             function (err, res, body) {
-                res.statusCode.should.be.equal(200);
-                body.message.should.equal('Validation failed');
-                body.name.should.equal('ValidationError');
-                body.should.have.property('errors');
-                body.errors.username.name.should.equal('ValidatorError');
-                body.errors.username.type.should.equal('required');
+                res.statusCode.should.be.equal(400);
+                body.error.message.should.equal('Validation failed');
                 done();
             });
         });
@@ -55,12 +51,8 @@ describe('User', function () {
                     }
                 },
                 function (err, res, body) {
-                    res.statusCode.should.be.equal(200);
-                    body.message.should.equal('Validation failed');
-                    body.name.should.equal('ValidationError');
-                    body.should.have.property('errors');
-                    body.errors.username.name.should.equal('ValidatorError');
-                    body.errors.username.type.should.equal('unique');
+                    res.statusCode.should.be.equal(400);
+                    body.error.message.should.equal('Validation failed');
                     done();
                 });
             });
@@ -101,9 +93,8 @@ describe('User', function () {
                     }
                 }, 
                 function (err, res, body) {
-                    res.statusCode.should.be.equal(200);
-                    body.should.have.property('error');
-                    body.should.not.have.property('auth_token');
+                    res.statusCode.should.be.equal(400);
+                    body.error.message.should.equal('Bad username password pair');
                     done();
                 });
             });
@@ -133,8 +124,8 @@ describe('User', function () {
                         }
                     },
                     function (err, res, body) {
-                        res.statusCode.should.be.equal(200);
-                        body.should.have.property('error');
+                        res.statusCode.should.be.equal(400);
+                        body.error.message.should.equal('Bad auth token');
                         done();
                     });
                 });
@@ -151,8 +142,9 @@ describe('User', function () {
                     }
                 },
                 function (err, res, body) {
-                    res.statusCode.should.be.equal(200);
-                    body.should.have.property('error');
+                    res.statusCode.should.be.equal(400);
+                    body.error.message.should.equal('Bad auth token');
+                    
                     // now check that i am not signed out
                     helper.updateUser({
                         user: {
@@ -185,7 +177,7 @@ describe('User', function () {
             });
         });
 
-        it('returns empty object for invalid user id', function (done) {
+        it('returns an error for invalid user id', function (done) {
             helper.getUser('randomWrongID', function (err, res, body) {
                 res.statusCode.should.be.equal(400);
                 body.error.message.should.equal('Bad user id');
@@ -229,8 +221,8 @@ describe('User', function () {
                            }
                         },
                         function (err, res, body) {                       
-                            res.statusCode.should.be.equal(200);
-                            body.message.should.equal('Validation failed');
+                            res.statusCode.should.be.equal(400);
+                            body.error.message.should.equal('Validation failed');
                             done();
                         });
                 });

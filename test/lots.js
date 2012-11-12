@@ -48,12 +48,8 @@ describe('Lot', function () {
                     }
                 },
                 function (err, res, body) {
-                    res.statusCode.should.be.equal(200);
-                    body.message.should.equal('Validation failed');
-                    body.name.should.equal('ValidationError');
-                    body.should.have.property('errors');
-                    body.errors.name.name.should.equal('ValidatorError');
-                    body.errors.name.type.should.equal('required');
+                    res.statusCode.should.be.equal(400);
+                    body.error.message.should.equal('Validation failed');
                     done();
                 });
             });
@@ -74,7 +70,7 @@ describe('Lot', function () {
             });
         });
 
-        it('returns empty lot for invalid lot id', function (done) {
+        it('returns an error for invalid lot id', function (done) {
             helper.getLot('randomWrongID', function (err, res, body) {
                 res.statusCode.should.be.equal(400);
                 body.error.message.should.equal('Bad lot id');

@@ -12,7 +12,9 @@ exports.signup = function (req, res) {
     }, function (err, user) {
         res.contentType('json');
         if (err) {
-            res.json(err);
+            res.json('400', {
+                error: err
+            });
         } else {
             res.json('201', {
                 user: {
@@ -50,8 +52,10 @@ exports.signin = function (req, res) {
                         });
                     });
                 } else {
-                    res.json('200', {
-                        error: 'Bad username password pair'
+                    res.json('400', {
+                        error: {
+                            message: 'Bad username password pair'
+                        }
                     });
                 }
             });
@@ -61,7 +65,7 @@ exports.signin = function (req, res) {
 
 // POST /signout
 exports.signout = function (req, res) {
-    helper.authenticate(req, res, function() {
+    helper.authenticate(req, res, function() {        
         helper.redis.hdel('auth_tokens', req.body.user.auth_token, function (err, val) {
             if (err) {                        
                 res.json(err);
@@ -133,7 +137,9 @@ exports.updateUser = function (req, res) {
                 user.username = req.body.user.username;
                 user.save(function(err) {
                     if (err) {
-                        res.json(err);
+                        res.json('400', {
+                            error: err
+                        });
                     } else {
                         res.json('200', {
                             user: {
