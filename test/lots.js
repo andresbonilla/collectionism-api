@@ -130,6 +130,31 @@ describe('Lot', function () {
             });
         });
         
+        it('does not update lot info for invalid params', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;
+                Factory.create('lot', {
+                    user_id: user._id
+                }, function (lot) {    
+                    helper.updateLot({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        lot: {
+                           _id: lot._id,
+                           name: ''
+                        }
+                    },
+                    function (err, res, body) {                       
+                        res.statusCode.should.be.equal(400);
+                        body.error.message.should.equal('Validation failed');
+                        done();
+                    });
+                });
+            });
+        });
+        
     });
     
     describe('destroy', function () {
