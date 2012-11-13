@@ -44,6 +44,60 @@ describe('Item', function () {
             });
         });
         
+        it('returns validation failure for invalid attributes', function (done) {
+            helper.signedInUser(function(err, res, body) {
+                var user = body.user;
+                Factory.create('lot', {
+                    user_id: user._id
+                }, function(lot) {
+                    helper.createItem({
+                        user: {
+                            _id: user._id,
+                            auth_token: user.auth_token 
+                        },
+                        lot: {
+                            _id: lot._id
+                        },
+                        item: {
+                            name: '',
+                            desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(400);
+                        body.error.message.should.equal('Validation failed');
+                        done();
+                    }); 
+                });
+            });
+        });
+        
+        it('returns error for invalid lot_id attribute', function (done) {
+            helper.signedInUser(function(err, res, body) {
+                var user = body.user;
+                Factory.create('lot', function(lot) {
+                    helper.createItem({
+                        user: {
+                            _id: user._id,
+                            auth_token: user.auth_token 
+                        },
+                        lot: {
+                            _id: lot._id
+                        },
+                        item: {
+                            name: 'testItem',
+                            desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(400);
+                        body.error.message.should.equal('Lot belongs to different user');
+                        done();
+                    }); 
+                });
+            });
+        });
+        
     });
 
 });

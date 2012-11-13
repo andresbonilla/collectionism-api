@@ -3,6 +3,7 @@ var mongoose  = require('mongoose'),
       Factory = require('factory-lady'),
          User = require('../models/User'),
           Lot = require('../models/Lot'),
+         Item = require('../models/Item'),
          http = require('request'),
           url = 'http://localhost:5000',
           app = require('../app');
@@ -27,7 +28,9 @@ exports.cleanDB = function(done) {
     // TODO: find a less hard-coded way to drop all collections
     User.collection.drop(function(err) {
         Lot.collection.drop(function(err) {
-            done(err);
+            Item.collection.drop(function(err) {
+                done(err);
+            });
         });
     });
 }
