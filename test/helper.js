@@ -10,6 +10,18 @@ var mongoose  = require('mongoose'),
 /* Util */ 
 	      
 exports.url = url;
+
+exports.JSON = function(params, done) {
+    http({
+        method: params.verb,
+        url: params.url,
+        json: true,
+        body: params.body
+    },
+    function (err, res, body) {
+        done(err, res, body);
+    });
+}
   
 exports.cleanDB = function(done) {
     // TODO: find a less hard-coded way to drop all collections
@@ -24,129 +36,84 @@ exports.cleanDB = function(done) {
     
 exports.signedInUser = function(done) {
     Factory.create('user', { password: 'secret' }, function (user) {
-        http({
-            method: 'POST',
-            url: url + '/signin',
-            json: true,
-            body: { 
-                user: {
-                    username:user.username,
-                    password:'secret' 
-                }
-            }
-        },
-        function (err, res, body) {
-            done(err, res, body);
-        });
+        exports.JSON ({
+            verb: 'POST',
+            url: url + '/signin', 
+            body: { user: { username:user.username, password:'secret' } }
+        }, done);
     });
 }
     
 exports.getUser = function(user_id, done) {
-    http({
-        method: 'GET',
-        url: url + '/users/' + user_id,
-        json: true,
+    exports.JSON ({
+        verb: 'GET',
+        url: url + '/users/' + user_id, 
         body: {}
-    },
-    function (err, res, body) {
-       done(err, res, body);
-    });
+    }, done);
 }
     
 exports.updateUser = function(params, done) {
-        http({
-            method: 'PUT',
-            url: url + '/users/' + params.user._id,
-            json: true,
-            body: params
-        },
-        function (err, res, body) {
-            done(err, res, body);
-        });
+    exports.JSON ({
+        verb: 'PUT',
+        url: url + '/users/' + params.user._id, 
+        body: params
+    }, done);
 }
     
 exports.signup = function(params, done) {
-    http({
-        method: 'POST',
-        url: url + '/signup',
-        json: true,
+    exports.JSON ({
+        verb: 'POST',
+        url: url + '/signup', 
         body: params
-    },
-    function (err, res, body) {
-        done(err, res, body);
-    });
+    }, done);
 }
     
 exports.signin = function(params, done) {
-    http({
-        method: 'POST',
-        url: url + '/signin',
-        json: true,
+    exports.JSON ({
+        verb: 'POST',
+        url: url + '/signin', 
         body: params
-    },
-    function (err, res, body) {
-        done(err, res, body);
-    });
+    }, done);
 }
     
 exports.signout = function(params, done) {
-    http({
-        method: 'POST',
-        url: url + '/signout',
-        json: true,
+    exports.JSON ({
+        verb: 'POST',
+        url: url + '/signout', 
         body: params
-    },
-    function (err, res, body) {
-        done(err, res, body);
-    });
+    }, done);
 }
 
 /* Lots */ 
 
 exports.createLot = function(params, done) {
-    http({
-        method: 'POST',
-        url: url + '/lots',
-        json: true,
+    exports.JSON ({
+        verb: 'POST',
+        url: url + '/lots', 
         body: params
-    },
-    function (err, res, body) {
-        done(err, res, body);
-    });
+    }, done);
 }
 
 exports.getLot = function(lot_id, done) {
-    http({
-        method: 'GET',
+    exports.JSON ({
+        verb: 'GET',
         url: url + '/lots/' + lot_id,
-        json: true,
         body: {}
-    },
-    function (err, res, body) {        
-       done(err, res, body);
-    });
+    }, done);
 }
 
 exports.updateLot = function(params, done) {
-    http({
-        method: 'PUT',
+    exports.JSON ({
+        verb: 'PUT',
         url: url + '/lots/' + params.lot._id,
-        json: true,
         body: params
-    },
-    function (err, res, body) {
-        done(err, res, body);
-    });
+    }, done);
 }
 
 exports.destroyLot = function(params, done) {
-    http({
-        method: 'DELETE',
+    exports.JSON ({
+        verb: 'DELETE',
         url: url + '/lots/' + params.lot._id,
-        json: true,
         body: params
-    },
-    function (err, res, body) {
-        done(err, res, body);
-    });
+    }, done);
 }
