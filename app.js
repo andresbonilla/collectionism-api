@@ -35,6 +35,8 @@ app.delete('/lots/:id', routes.lots.destroyLot);
 
 app.post('/items', routes.items.createItem);
 app.get('/items/:id', routes.items.getItem);
+app.put('/items/:id', routes.items.updateItem);
+app.delete('/items/:id', routes.items.destroyItem);
 
 // Init
 

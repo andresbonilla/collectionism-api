@@ -138,3 +138,19 @@ exports.getItem = function(item_id, done) {
         body: {}
     }, done);
 }
+
+exports.updateItem = function(params, done) {
+    exports.JSON ({
+        verb: 'PUT',
+        url: url + '/items/' + params.item._id,
+        body: params
+    }, done);
+}
+
+exports.destroyItem = function(params, done) {
+    exports.JSON ({
+        verb: 'DELETE',
+        url: url + '/items/' + params.item._id,
+        body: params
+    }, done);
+}

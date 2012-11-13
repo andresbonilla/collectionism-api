@@ -123,4 +123,130 @@ describe('Item', function () {
 
     });
 
+    describe('update', function () {
+
+        it('updates item info for valid params', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;      
+                Factory.create('item', { 
+                    user_id: user._id 
+                }, function (item) {
+                    helper.updateItem({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        item: {
+                            _id: item._id,
+                            name: 'New Item Name'
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(200);
+                        body.item.name.should.equal('New Item Name');
+                        done();
+                    });
+                });
+            });
+        });
+        
+        it('does not update item info for wrong user', function (done) {
+            Factory.create('item', function (item) {
+                helper.signedInUser(function (err, res, body) {
+                    var user = body.user;
+                    helper.updateItem({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        item: {
+                           _id: item._id,
+                           name: 'New Item Name'
+                        }
+                    },
+                    function (err, res, body) {                       
+                        res.statusCode.should.be.equal(400);
+                        body.error.message.should.equal('Item belongs to different user');
+                        done();
+                    });
+                });
+            });
+        });
+        
+        it('does not update item info for invalid params', function (done) {
+            helper.signedInUser(function (err, res, body) {
+               var user = body.user;
+               Factory.create('item', {
+                   user_id: user._id
+               }, function (item) {    
+                   helper.updateItem({
+                       user: {
+                         _id: user._id,
+                         auth_token: user.auth_token
+                       },
+                       item: {
+                          _id: item._id,
+                          name: ''
+                       }
+                   },
+                   function (err, res, body) {                       
+                       res.statusCode.should.be.equal(400);
+                       body.error.message.should.equal('Nothing to update');
+                       done();
+                   });
+               });
+            });
+        });
+        
+    });
+    
+    describe('destroy', function () {
+
+        it('destroys an item for valid params', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;      
+                Factory.create('item', { 
+                    user_id: user._id 
+                }, function (item) {
+                    helper.destroyItem({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        item: {
+                           _id: item._id,
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(200);
+                        body.destroyed.item._id.should.equal(item._id+'');
+                        done();
+                    });
+                });
+            });
+        });
+        
+        it('does not destroy item for wrong user', function (done) {
+            Factory.create('item', function (item) {
+                helper.signedInUser(function (err, res, body) {
+                    var user = body.user;
+                    helper.destroyItem({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        item: {
+                           _id: item._id
+                        }
+                    },
+                    function (err, res, body) {                       
+                        res.statusCode.should.be.equal(400);
+                        body.error.message.should.equal('Item belongs to different user');
+                        done();
+                    });
+                });
+            });
+        });
+        
+    });
 });

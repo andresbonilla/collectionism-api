@@ -71,7 +71,8 @@ exports.updateLot = function (req, res) {
                             res.json('200', {
                                 lot: {
                                     _id: lot._id,
-                                    name: lot.name
+                                    name: lot.name,
+                                    user_id: lot.user_id
                                 }
                             });
                         }
@@ -109,7 +110,8 @@ exports.destroyLot = function (req, res) {
                                 destroyed: {
                                     lot: {
                                         _id: lot._id,
-                                        name: lot.name
+                                        name: lot.name,
+                                        user_id: lot.user_id
                                     }
                                 }
                             });
