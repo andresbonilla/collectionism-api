@@ -117,3 +117,13 @@ exports.destroyLot = function(params, done) {
         body: params
     }, done);
 }
+
+/* Items */
+
+exports.createItem = function(params, done) {
+    exports.JSON ({
+        verb: 'POST',
+        url: url + '/items', 
+        body: params
+    }, done);
+}

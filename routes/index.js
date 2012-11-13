@@ -4,3 +4,4 @@ var mongoose = require('mongoose'),
 
 exports.users = require('./users');
 exports.lots = require('./lots');
+exports.items = require('./items');

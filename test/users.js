@@ -267,4 +267,4 @@ describe('User', function () {
 
     });
 
-})
+});

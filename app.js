@@ -33,6 +33,7 @@ app.get('/lots/:id', routes.lots.getLot);
 app.put('/lots/:id', routes.lots.updateLot);
 app.delete('/lots/:id', routes.lots.destroyLot);
 
+app.post('/items', routes.items.createItem);
 
 // Init
 
