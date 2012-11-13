@@ -43,3 +43,29 @@ exports.createItem = function (req, res) {
         });
     });
 }
+
+// GET /items/:id
+exports.getItem = function (req, res) {
+    Item.findOne({
+        _id: req.params.id
+    }, function (err, item) {
+        res.contentType('json');
+        if (err) {   
+            res.json('400', {
+                error: {
+                    message: 'Bad item id'
+                }
+            });
+        } else {
+            res.json('200', {
+                item: {
+                    _id: item._id,
+                    name: item.name,
+                    desc: item.desc,
+                    user_id: item.user_id,
+                    lot_id: item.lot_id
+                }
+            });
+        }
+    });
+}

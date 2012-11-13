@@ -130,3 +130,11 @@ exports.createItem = function(params, done) {
         body: params
     }, done);
 }
+
+exports.getItem = function(item_id, done) {
+    exports.JSON ({
+        verb: 'GET',
+        url: url + '/items/' + item_id,
+        body: {}
+    }, done);
+}
