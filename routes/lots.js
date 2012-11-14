@@ -29,24 +29,26 @@ exports.createLot = function (req, res) {
 
 // GET /lots/:id
 exports.getLot = function (req, res) {
-    Lot.findOne({
-        _id: req.params.id
-    }, function (err, lot) {
-        res.contentType('json');
-        if (err) {   
-            res.json('400', {
-                error: {
-                    message: 'Bad lot id'
-                }
-            });
-        } else {
-            res.json('200', {
-                lot: {
-                    _id: lot._id,
-                    name: lot.name
-                }
-            });
-        }
+    helper.authenticate(req, res, function() {
+        Lot.findOne({
+            _id: req.params.id
+        }, function (err, lot) {
+            res.contentType('json');
+            if (err) {   
+                res.json('400', {
+                    error: {
+                        message: 'Bad lot id'
+                    }
+                });
+            } else {
+                res.json('200', {
+                    lot: {
+                        _id: lot._id,
+                        name: lot.name
+                    }
+                });
+            }
+        });
     });
 }
 

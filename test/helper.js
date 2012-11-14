@@ -105,11 +105,11 @@ exports.createLot = function(params, done) {
     }, done);
 }
 
-exports.getLot = function(lot_id, done) {
+exports.getLot = function(params, done) {
     exports.JSON ({
         verb: 'GET',
-        url: url + '/lots/' + lot_id,
-        body: {}
+        url: url + '/lots/' + params.lot._id,
+        body: params
     }, done);
 }
 
