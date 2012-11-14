@@ -1,8 +1,7 @@
 var Factory = require('factory-lady'),
      helper = require('./helper'),
-     should = require('should'),
-       http = require('request');
-
+     should = require('should');
+     
 describe('User', function () {
 
     beforeEach(function (done) {
@@ -251,34 +250,39 @@ describe('User', function () {
 
         it('returns an array of users with username similar to the specified username', function (done) {
             Factory.create('user', function (user) {
-                http({
-                    method: 'GET',
-                    url: helper.url + '/find/' + user.username,
-                    json: true,
-                    body: {}
-                },
-                function (err, res, body) {
-                    res.statusCode.should.be.equal(200);
-                    body[0].should.have.property('_id');
-                    body[0].username.should.equal(user.username);
-                    done();
+                helper.signedInUser(function (err, res, body) {                
+                    helper.findByUsername({
+                        user: {
+                            _id: body.user._id,
+                            auth_token: body.user.auth_token,
+                            find_username: user.username
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(200);
+                        body[0].should.have.property('_id');
+                        body[0].username.should.equal(user.username);
+                        done();
+                    });
                 });
             });
         });
 
         it('returns an empty array if no users have a similar username', function (done) {
-            http({
-                method: 'GET',
-                url: helper.url + '/find/unnownUsername',
-                json: true,
-                body: {}
-            },
-            function (err, res, body) {
-                res.statusCode.should.be.equal(200);
-                JSON.stringify(body).should.equal('[]');
-                done();
+            helper.signedInUser(function (err, res, body) {            
+                helper.findByUsername({
+                    user: {
+                        _id: body.user._id,
+                        auth_token: body.user.auth_token,
+                        find_username: 'unnownUsername'
+                    }
+                },
+                function (err, res, body) {
+                    res.statusCode.should.be.equal(200);
+                    JSON.stringify(body).should.equal('[]');
+                    done();
+                });
             });
-
         });
 
     });

@@ -54,6 +54,14 @@ exports.getUser = function(params, done) {
         body: params
     }, done);
 }
+
+exports.findByUsername = function(params, done) {
+    exports.JSON ({
+        verb: 'GET',
+        url: url + '/find/' + params.user.find_username,
+        body: params
+    }, done);
+}
     
 exports.updateUser = function(params, done) {
     exports.JSON ({

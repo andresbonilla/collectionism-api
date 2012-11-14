@@ -106,22 +106,24 @@ exports.getUser = function (req, res) {
 // GET /find/:username
 //TOOD: Make it find SIMILAR usernames, not just the identical one.
 exports.findUserByUsername = function (req, res) {
-    User.find({
-        username: req.params.username
-    }, function (err, users) {
-        res.contentType('json');
-        if (err) {
-            res.json(err);
-        } else {
-            var result = [];
-            for (var i = 0; i < users.length; i += 1) {
-                result.push({
-                    _id: users[i]['_id'],
-                    username: users[i]['username']
-                });
+    helper.authenticate(req, res, function() {                
+        User.find({
+            username: req.params.username
+        }, function (err, users) {
+            res.contentType('json');
+            if (err) {
+                res.json(err);
+            } else {
+                var result = [];
+                for (var i = 0; i < users.length; i += 1) {
+                    result.push({
+                        _id: users[i]['_id'],
+                        username: users[i]['username']
+                    });
+                }
+                res.json('200', result);
             }
-            res.json('200', result);
-        }
+        });
     });
 }
 

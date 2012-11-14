@@ -10,16 +10,25 @@ if (process.env.REDISTOGO_URL) {
 exports.redis = redis;
 
 exports.authenticate = function(req, res, done) {
-    redis.hget('auth_tokens', req.body.user.auth_token, function (err, val) {
-        if (val && val === req.body.user._id) {
-            done();
-        } else {
-            res.contentType('json');
-            res.json('400', {
-                error: {
-                    message: 'Bad auth token'
-                }
-            });
-        }
-    });
+    if (req.body.user && req.body.user._id && req.body.user.auth_token) {
+        redis.hget('auth_tokens', req.body.user.auth_token, function (err, val) {
+            if (val && val === req.body.user._id) {
+                done();
+            } else {
+                res.contentType('json');
+                res.json('400', {
+                    error: {
+                        message: 'Bad auth token'
+                    }
+                });
+            }
+        });
+    } else {
+        res.contentType('json');
+        res.json('400', {
+            error: {
+                message: 'Not authenticated'
+            }
+        });
+    }
 }
