@@ -168,20 +168,36 @@ describe('User', function () {
 
         it('returns user info for valid user id', function (done) {
             Factory.create('user', function (user) {
-                helper.getUser(user._id, function (err, res, body) {
-                    res.statusCode.should.be.equal(200);
-                    body.user.should.have.property('_id');
-                    body.user.username.should.equal(user.username);
-                    done();
+                helper.signedInUser(function(err, res, body) {
+                    helper.getUser({
+                        user: {
+                            _id: body.user._id,
+                            auth_token: body.user.auth_token,
+                            get_id: user._id
+                        }
+                    }, function (err, res, body) {
+                        res.statusCode.should.be.equal(200);
+                        body.user.should.have.property('_id');
+                        body.user.username.should.equal(user.username);
+                        done();
+                    });
                 });
             });
         });
 
         it('returns an error for invalid user id', function (done) {
-            helper.getUser('randomWrongID', function (err, res, body) {
-                res.statusCode.should.be.equal(400);
-                body.error.message.should.equal('Bad user id');
-                done();
+            helper.signedInUser(function(err, res, body) {
+                helper.getUser({
+                    user: {
+                        _id: body.user._id,
+                        auth_token: body.user.auth_token,
+                        get_id: 'randomWrongID'
+                    }
+                }, function (err, res, body) {
+                    res.statusCode.should.be.equal(400);
+                    body.error.message.should.equal('Bad user id');
+                    done();
+                });
             });
         });
 

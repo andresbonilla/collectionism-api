@@ -47,11 +47,11 @@ exports.signedInUser = function(done) {
     });
 }
     
-exports.getUser = function(user_id, done) {
+exports.getUser = function(params, done) {
     exports.JSON ({
         verb: 'GET',
-        url: url + '/users/' + user_id, 
-        body: {}
+        url: url + '/users/' + params.user.get_id, 
+        body: params
     }, done);
 }
     

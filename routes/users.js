@@ -80,24 +80,26 @@ exports.signout = function (req, res) {
 
 // GET /users/:id
 exports.getUser = function (req, res) {
-    User.findOne({
-        _id: req.params.id
-    }, function (err, user) {
-        res.contentType('json');
-        if (err) {
-            res.json('400', {
-                error: {
-                    message: 'Bad user id'
-                }
-            });
-        } else {
-            res.json('200', {
-                user: {
-                    _id: user._id,
-                    username: user.username
-                }
-            });
-        }
+    helper.authenticate(req, res, function() {            
+        User.findOne({
+            _id: req.params.id
+        }, function (err, user) {
+            res.contentType('json');
+            if (err) {
+                res.json('400', {
+                    error: {
+                        message: 'Bad user id'
+                    }
+                });
+            } else {
+                res.json('200', {
+                    user: {
+                        _id: user._id,
+                        username: user.username
+                    }
+                });
+            }
+        });
     });
 }
 
