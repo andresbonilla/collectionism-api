@@ -139,11 +139,11 @@ exports.createItem = function(params, done) {
     }, done);
 }
 
-exports.getItem = function(item_id, done) {
+exports.getItem = function(params, done) {
     exports.JSON ({
         verb: 'GET',
-        url: url + '/items/' + item_id,
-        body: {}
+        url: url + '/items/' + params.item._id,
+        body: params
     }, done);
 }
 

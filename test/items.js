@@ -103,21 +103,41 @@ describe('Item', function () {
     describe('get', function () {
 
         it('returns item info for valid item id', function (done) {
-            Factory.create('item', function (item) {
-                helper.getItem(item._id, function (err, res, body) {
-                    res.statusCode.should.be.equal(200);
-                    body.item.should.have.property('_id');
-                    body.item.name.should.equal(item.name);
-                    done();
+            helper.signedInUser(function (err, res, body) {            
+                Factory.create('item', function (item) {
+                    helper.getItem({
+                        user: {
+                            _id: body.user._id,
+                            auth_token: body.user.auth_token
+                        },
+                        item: {
+                            _id: item._id
+                        }
+                    }, function (err, res, body) {
+                        res.statusCode.should.be.equal(200);
+                        body.item.should.have.property('_id');
+                        body.item.name.should.equal(item.name);
+                        done();
+                    });
                 });
             });
         });
         
         it('returns an error for invalid item id', function (done) {
-            helper.getItem('randomWrongID', function (err, res, body) {
-                res.statusCode.should.be.equal(400);
-                body.error.message.should.equal('Bad item id');
-                done();
+            helper.signedInUser(function (err, res, body) {                        
+                helper.getItem({
+                    user: {
+                        _id: body.user._id,
+                        auth_token: body.user.auth_token
+                    },
+                    item: {
+                        _id: 'randomWrongID'
+                    }
+                }, function (err, res, body) {
+                    res.statusCode.should.be.equal(400);
+                    body.error.message.should.equal('Bad item id');
+                    done();
+                });
             });
         });
 
