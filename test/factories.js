@@ -21,5 +21,6 @@ Factory.define('item', Item, {
     name: function(cb) { cb('testItem'+(itemCount++)); },
     desc: 'Vestibulum id ligula porta felis euismod semper.',
     user_id: Factory.assoc('user', '_id'),
-    lot_id: Factory.assoc('lot', '_id')
+    lot_id: Factory.assoc('lot', '_id'),
+    img_url: 'http://testimgurl.com'
 });

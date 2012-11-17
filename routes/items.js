@@ -13,6 +13,7 @@ exports.createItem = function (req, res) {
                 Item.create({
                     name: req.body.item.name,
                     desc: req.body.item.desc,
+                    img_url: req.body.item.img_url,
                     user_id: req.body.user._id,
                     lot_id: req.body.lot._id
                 }, 
@@ -28,7 +29,8 @@ exports.createItem = function (req, res) {
                                 name: item.name,
                                 desc: item.desc,
                                 user_id: item.user_id,
-                                lot_id: item.lot_id
+                                lot_id: item.lot_id,
+                                img_url: item.img_url
                             }
                         });
                     }
@@ -64,7 +66,8 @@ exports.getItem = function (req, res) {
                         name: item.name,
                         desc: item.desc,
                         user_id: item.user_id,
-                        lot_id: item.lot_id
+                        lot_id: item.lot_id,
+                        img_url: item.img_url           
                     }
                 });
             }
@@ -102,7 +105,8 @@ exports.updateItem = function (req, res) {
                                         name: item.name,
                                         desc: item.desc,
                                         user_id: item.user_id,
-                                        lot_id: item.lot_id
+                                        lot_id: item.lot_id,
+                                        img_url: item.img_url
                                     }
                                 });
                             }
@@ -150,7 +154,8 @@ exports.destroyItem = function (req, res) {
                                         name: item.name,
                                         desc: item.desc,
                                         user_id: item.user_id,
-                                        lot_id: item.lot_id
+                                        lot_id: item.lot_id,
+                                        img_url: item.img_url
                                     }
                                 }
                             });

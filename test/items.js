@@ -29,12 +29,14 @@ describe('Item', function () {
                         },
                         item: {
                             name: 'testItem',
-                            desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+                            desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            img_url: 'http://faketesturl.com'
                         }
                     },
                     function (err, res, body) {
                         res.statusCode.should.be.equal(201);
                         body.item.should.have.property('_id');
+                        body.item.should.have.property('img_url');
                         body.item.name.should.equal('testItem')
                         body.item.user_id.should.equal(user._id+'');
                         body.item.lot_id.should.equal(lot._id+'');

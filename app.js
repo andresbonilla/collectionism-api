@@ -8,6 +8,7 @@ var app = express();
 app.configure(function(){
     app.use(express.bodyParser());
     app.use(app.router);
+    app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
 });
 
 app.configure('development', function(){
