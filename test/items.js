@@ -22,7 +22,7 @@ describe('Item', function () {
                     helper.createItem({
                         user: {
                             _id: user._id,
-                            auth_token: user.auth_token 
+                            auth_token: user.auth_token
                         },
                         lot: {
                             _id: lot._id

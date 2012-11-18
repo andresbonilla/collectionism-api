@@ -1,5 +1,4 @@
-var mongoose  = require('mongoose'),
-	factories = require('./factories'),
+var factories = require('./factories'),
       Factory = require('factory-lady'),
          User = require('../models/User'),
           Lot = require('../models/Lot'),
