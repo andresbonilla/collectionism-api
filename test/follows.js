@@ -88,5 +88,30 @@ describe('Item', function () {
             });
         });
         
+        it('does not destroy a follow for invalid followed id', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;                      
+                Factory.create('follow', { 
+                    follower_id: user._id 
+                }, function (follow) {
+                    helper.destroyFollow({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        follow: {
+                            follower_id: user._id,
+                            followed_id: 'randomWrongID',
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(400);
+                        body.error.message.should.equal('Bad followed ID');
+                        done();
+                    });
+                });
+            });
+        });
+        
     });
 });

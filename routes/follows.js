@@ -49,6 +49,12 @@ exports.destroyFollow = function (req, res) {
         }, function (err, follow) {
             if (err) {
                 res.json(err);
+            } else if (!follow) {
+                res.json('400', {
+                   error: {
+                       message: 'Bad followed ID'
+                   } 
+                });
             } else {
                 follow.remove(function(err) {
                     if (err) {
