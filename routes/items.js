@@ -7,7 +7,7 @@ exports.createItem = function (req, res) {
     res.contentType('json');
     helper.authenticate(req, res, function() {
         Lot.findOne({
-            _id: req.body.lot._id
+            _id: req.body.item.lot_id
         }, function (err, lot) {
             if (lot.user_id === req.body.user._id) {
                 Item.create({
@@ -15,7 +15,7 @@ exports.createItem = function (req, res) {
                     desc: req.body.item.desc,
                     img_url: req.body.item.img_url,
                     user_id: req.body.user._id,
-                    lot_id: req.body.lot._id
+                    lot_id: req.body.item.lot_id
                 }, 
                 function (err, item) {
                     if (err) {

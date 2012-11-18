@@ -24,10 +24,8 @@ describe('Item', function () {
                             _id: user._id,
                             auth_token: user.auth_token
                         },
-                        lot: {
-                            _id: lot._id
-                        },
                         item: {
+                            lot_id: lot._id,
                             name: 'testItem',
                             desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                             img_url: 'http://faketesturl.com'
@@ -57,10 +55,8 @@ describe('Item', function () {
                             _id: user._id,
                             auth_token: user.auth_token 
                         },
-                        lot: {
-                            _id: lot._id
-                        },
                         item: {
+                            lot_id: lot._id,
                             name: '',
                             desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
                         }
@@ -83,10 +79,8 @@ describe('Item', function () {
                             _id: user._id,
                             auth_token: user.auth_token 
                         },
-                        lot: {
-                            _id: lot._id
-                        },
                         item: {
+                            lot_id: lot._id,
                             name: 'testItem',
                             desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
                         }
