@@ -3,6 +3,7 @@ var factories = require('./factories'),
          User = require('../models/User'),
           Lot = require('../models/Lot'),
          Item = require('../models/Item'),
+       Follow = require('../models/Follow'),
          http = require('request'),
           url = 'http://localhost:5000',
           app = require('../app');
@@ -28,7 +29,9 @@ exports.cleanDB = function(done) {
     User.collection.drop(function(err) {
         Lot.collection.drop(function(err) {
             Item.collection.drop(function(err) {
-                done(err);
+                Follow.collection.drop(function(err) {
+                    done(err);
+                });
             });
         });
     });
