@@ -36,6 +36,27 @@ describe('Item', function () {
                  });
              });
          });
+         
+         it('does not create follow when given invalid attributes', function (done) {
+              helper.signedInUser(function(err, res, body) {
+                  var user1 = body.user;
+                  helper.createFollow({
+                      user: {
+                          _id: user1._id,
+                          auth_token: user1.auth_token 
+                      },
+                      follow: {
+                          follower_id: user1._id,
+                          followed_id: 'randomWrongId'
+                      }
+                  },
+                  function (err, res, body) {
+                      res.statusCode.should.be.equal(400);
+                      body.error.message.should.equal('Bad user ID')
+                      done();
+                  }); 
+              });
+          });
         
     });
     
