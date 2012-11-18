@@ -6,3 +6,4 @@ exports.users = require('./users');
 exports.lots = require('./lots');
 exports.items = require('./items');
 exports.follows = require('./follows');
+exports.comments = require('./comments');

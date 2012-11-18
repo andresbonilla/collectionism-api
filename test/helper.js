@@ -182,3 +182,13 @@ exports.destroyFollow = function(params, done) {
         body: params
     }, done);
 }
+
+/* Followers */
+
+exports.createComment = function(params, done) {
+    exports.JSON ({
+        verb: 'POST',
+        url: url + '/comments', 
+        body: params
+    }, done);
+}

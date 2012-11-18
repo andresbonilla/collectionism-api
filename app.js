@@ -41,6 +41,9 @@ app.delete('/items/:id', routes.items.destroyItem);
 app.post('/follows', routes.follows.createFollow);
 app.delete('/follows', routes.follows.destroyFollow);
 
+app.post('/comments', routes.comments.createComment);
+
+
 // Init
 
 app.listen(port = process.env.PORT || 5000);
