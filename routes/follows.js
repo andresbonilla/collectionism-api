@@ -5,11 +5,11 @@ var helper = require('./helper'),
 // POST /follows
 exports.createFollow = function (req, res) {
     helper.authenticate(req, res, function() {
+        res.contentType('json');
         User.findOne({
             _id: req.body.follow.followed_id
         }, function (err, user) {
             if (err) {
-                res.contentType('json');
                 res.json('400', {
                     error: {
                         message: 'Bad user ID'
@@ -21,7 +21,6 @@ exports.createFollow = function (req, res) {
                     followed_id: req.body.follow.followed_id
                 }, 
                 function (err, follow) {
-                    res.contentType('json');
                     if (err) {
                         res.json('400', {
                             error: err
@@ -37,5 +36,37 @@ exports.createFollow = function (req, res) {
                 });
             }
         });
+    });
+}
+
+// DELETE /follows
+exports.destroyFollow = function (req, res) {
+    helper.authenticate(req, res, function() {
+        res.contentType('json');
+        Follow.findOne({
+            follower_id: req.body.user._id,
+            followed_id: req.body.follow.followed_id
+        }, function (err, follow) {
+            if (err) {
+                res.json(err);
+            } else {
+                follow.remove(function(err) {
+                    if (err) {
+                        res.json('400', {
+                            error: err
+                        });
+                    } else {
+                        res.json('200', {
+                            destroyed: {
+                                follow: {
+                                    follower_id: follow.follower_id,
+                                    followed_id: follow.followed_id                                    
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });            
     });
 }

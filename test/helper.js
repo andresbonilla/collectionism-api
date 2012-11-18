@@ -174,3 +174,11 @@ exports.createFollow = function(params, done) {
         body: params
     }, done);
 }
+
+exports.destroyFollow = function(params, done) {
+    exports.JSON ({
+        verb: 'DELETE',
+        url: url + '/follows/',
+        body: params
+    }, done);
+}

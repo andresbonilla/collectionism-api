@@ -60,4 +60,33 @@ describe('Item', function () {
         
     });
     
+    describe('unfollow', function () {
+
+        it('destroys a follow for valid params', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;                      
+                Factory.create('follow', { 
+                    follower_id: user._id 
+                }, function (follow) {
+                    helper.destroyFollow({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        follow: {
+                            follower_id: user._id,
+                            followed_id: follow.followed_id,
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(200);
+                        body.destroyed.follow.follower_id.should.equal(user._id);
+                        body.destroyed.follow.followed_id.should.equal(follow.followed_id);
+                        done();
+                    });
+                });
+            });
+        });
+        
+    });
 });

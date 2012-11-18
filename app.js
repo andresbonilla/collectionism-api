@@ -39,6 +39,7 @@ app.put('/items/:id', routes.items.updateItem);
 app.delete('/items/:id', routes.items.destroyItem);
 
 app.post('/follows', routes.follows.createFollow);
+app.delete('/follows', routes.follows.destroyFollow);
 
 // Init
 
