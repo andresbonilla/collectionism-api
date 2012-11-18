@@ -161,3 +161,13 @@ exports.destroyItem = function(params, done) {
         body: params
     }, done);
 }
+
+/* Followers */
+
+exports.createFollow = function(params, done) {
+    exports.JSON ({
+        verb: 'POST',
+        url: url + '/follows', 
+        body: params
+    }, done);
+}

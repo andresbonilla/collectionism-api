@@ -38,6 +38,8 @@ app.get('/items/:id', routes.items.getItem);
 app.put('/items/:id', routes.items.updateItem);
 app.delete('/items/:id', routes.items.destroyItem);
 
+app.post('/follows', routes.follows.createFollow);
+
 // Init
 
 app.listen(port = process.env.PORT || 5000);
