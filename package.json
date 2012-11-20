@@ -15,7 +15,7 @@
   	}, 
 	"scripts": {
     "start": "node app.js",
-    "test": "mocha -R nyan"
+    "test": "mocha"
   	},
 	"devDependencies": {
 	 	"should": "1.2.0",
