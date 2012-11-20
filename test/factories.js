@@ -32,8 +32,14 @@ Factory.define('follow', Follow, {
     followed_id: Factory.assoc('user', '_id')    
 });
 
-Factory.define('comment', Comment, {
+Factory.define('itemComment', Comment, {
     user_id: Factory.assoc('user', '_id'),
     item_id: Factory.assoc('item', '_id'),
+    text: 'sample comment text'
+});
+
+Factory.define('lotComment', Comment, {
+    user_id: Factory.assoc('user', '_id'),
+    lot_id: Factory.assoc('lot', '_id'),
     text: 'sample comment text'
 });

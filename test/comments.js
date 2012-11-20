@@ -31,6 +31,33 @@ describe('Comment', function () {
                         res.statusCode.should.be.equal(201);
                         body.comment.should.have.property('_id');
                         body.comment.text.should.equal('Sample comment text');
+                        body.comment.item_id.should.equal(item._id+'');
+                        body.comment.user_id.should.equal(user._id+'');
+                        done();
+                    }); 
+                });
+            });
+        });
+        
+        it('creates a new comment for a lot given valid attributes and returns it', function (done) {
+            helper.signedInUser(function(err, res, body) {
+                var user = body.user;
+                Factory.create('lot', function(lot) {
+                    helper.createComment({
+                        user: {
+                            _id: user._id,
+                            auth_token: user.auth_token
+                        },
+                        comment: {
+                            lot_id: lot._id,
+                            text: 'Sample comment text'
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(201);
+                        body.comment.should.have.property('_id');
+                        body.comment.text.should.equal('Sample comment text');
+                        body.comment.lot_id.should.equal(lot._id+'');
                         body.comment.user_id.should.equal(user._id+'');
                         done();
                     }); 
@@ -66,10 +93,34 @@ describe('Comment', function () {
     
     describe('destroy', function () {
 
-        it('destroys a comment for valid params', function (done) {
+        it('destroys an item comment for valid params', function (done) {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      
-                Factory.create('comment', { 
+                Factory.create('itemComment', { 
+                    user_id: user._id 
+                }, function (comment) {
+                    helper.destroyComment({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        comment: {
+                            _id: comment._id,
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(200);
+                        body.destroyed.comment._id.should.equal(comment._id+'');
+                        done();
+                    });
+                });
+            });
+        });
+        
+        it('destroys a lot comment for valid params', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;                      
+                Factory.create('lotComment', { 
                     user_id: user._id 
                 }, function (comment) {
                     helper.destroyComment({
@@ -93,7 +144,7 @@ describe('Comment', function () {
         it('does not destroy a comment for invalid comment id', function (done) {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      
-                Factory.create('comment', { 
+                Factory.create('itemComment', { 
                     user_id: user._id 
                 }, function (comment) {
                     helper.destroyComment({
