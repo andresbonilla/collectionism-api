@@ -60,9 +60,60 @@ describe('Comment', function () {
                  });
              });
             
-         });
+        });
         
     });
     
+    describe('destroy', function () {
+
+        it('destroys a comment for valid params', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;                      
+                Factory.create('comment', { 
+                    user_id: user._id 
+                }, function (comment) {
+                    helper.destroyComment({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        comment: {
+                            _id: comment._id,
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(200);
+                        body.destroyed.comment._id.should.equal(comment._id+'');
+                        done();
+                    });
+                });
+            });
+        });
+        
+        it('does not destroy a comment for invalid comment id', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;                      
+                Factory.create('comment', { 
+                    user_id: user._id 
+                }, function (comment) {
+                    helper.destroyComment({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        comment: {
+                            _id: 'WrongCommentID'
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(400);
+                        body.error.message.should.equal('Bad comment ID');
+                        done();
+                    });
+                });
+            });
+        });
+        
+    });
     
 });

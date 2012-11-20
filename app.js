@@ -42,6 +42,7 @@ app.post('/follows', routes.follows.createFollow);
 app.delete('/follows', routes.follows.destroyFollow);
 
 app.post('/comments', routes.comments.createComment);
+app.delete('/comments', routes.comments.destroyComment);
 
 
 // Init

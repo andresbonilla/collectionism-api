@@ -4,6 +4,7 @@ var factories = require('./factories'),
           Lot = require('../models/Lot'),
          Item = require('../models/Item'),
        Follow = require('../models/Follow'),
+      Comment = require('../models/Comment'),
          http = require('request'),
           url = 'http://localhost:5000',
           app = require('../app');
@@ -30,7 +31,9 @@ exports.cleanDB = function(done) {
         Lot.collection.drop(function(err) {
             Item.collection.drop(function(err) {
                 Follow.collection.drop(function(err) {
-                    done(err);
+                    Comment.collection.drop(function(err) {
+                        done(err);
+                    });
                 });
             });
         });
@@ -178,7 +181,7 @@ exports.createFollow = function(params, done) {
 exports.destroyFollow = function(params, done) {
     exports.JSON ({
         verb: 'DELETE',
-        url: url + '/follows/',
+        url: url + '/follows',
         body: params
     }, done);
 }
@@ -189,6 +192,14 @@ exports.createComment = function(params, done) {
     exports.JSON ({
         verb: 'POST',
         url: url + '/comments', 
+        body: params
+    }, done);
+}
+
+exports.destroyComment = function(params, done) {
+    exports.JSON ({
+        verb: 'DELETE',
+        url: url + '/comments/',
         body: params
     }, done);
 }

@@ -2,7 +2,8 @@ var Factory = require('factory-lady'),
        User = require('../models/User'),
         Lot = require('../models/Lot'),
        Item = require('../models/Item')
-     Follow = require('../models/Follow');
+     Follow = require('../models/Follow'),
+    Comment = require('../models/Comment');
     
 var userCount = 1,
      lotCount = 1,
@@ -29,4 +30,10 @@ Factory.define('item', Item, {
 Factory.define('follow', Follow, {
     follower_id: Factory.assoc('user', '_id'),
     followed_id: Factory.assoc('user', '_id')    
+});
+
+Factory.define('comment', Comment, {
+    user_id: Factory.assoc('user', '_id'),
+    item_id: Factory.assoc('item', '_id'),
+    text: 'sample comment text'
 });
