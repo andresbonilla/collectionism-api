@@ -53,7 +53,7 @@ exports.getItem = function (req, res) {
             _id: req.params.id
         }, function (err, item) {
             res.contentType('json');
-            if (err) {   
+            if (err || !item) {   
                 res.json('400', {
                     error: {
                         message: 'Bad item id'

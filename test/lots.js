@@ -225,6 +225,45 @@ describe('Lot', function () {
             });
         });
         
+        it('destroys items in a lot when that lot is destroyed', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;      
+                Factory.create('lot', { 
+                    user_id: user._id 
+                }, function (lot) {
+                    Factory.create('item', { 
+                        user_id: user._id,
+                        lot_id: lot._id
+                    }, function (item) {
+                        helper.destroyLot({
+                            user: {
+                              _id: user._id,
+                              auth_token: user.auth_token
+                            },
+                            lot: {
+                               _id: lot._id,
+                            }
+                        },
+                        function (err, res, body) {                            
+                            helper.getItem({
+                                user: {
+                                    _id: user._id,
+                                    auth_token: user.auth_token
+                                },
+                                item: {
+                                    _id: item._id
+                                }
+                            }, function (err, res, body) {
+                                res.statusCode.should.be.equal(400);
+                                body.error.message.should.equal('Bad item id');
+                                done();
+                            });
+                        });
+                    });
+                });
+            });
+        });
+        
     });
 
 })

@@ -1,5 +1,6 @@
 var helper = require('./helper'),
-       Lot = require('../models/Lot');
+       Lot = require('../models/Lot'),
+      Item = require('../models/Item');
 
 // POST /lots
 exports.createLot = function (req, res) {
@@ -34,7 +35,7 @@ exports.getLot = function (req, res) {
             _id: req.params.id
         }, function (err, lot) {
             res.contentType('json');
-            if (err) {   
+            if (err || !lot) {   
                 res.json('400', {
                     error: {
                         message: 'Bad lot id'
@@ -102,19 +103,28 @@ exports.destroyLot = function (req, res) {
                 res.json(err);
             } else {
                 if (lot.user_id === req.body.user._id) {
+                    var lot_id = lot._id;
                     lot.remove(function(err) {
                         if (err) {
                             res.json('400', {
                                 error: err
                             });
                         } else {
-                            res.json('200', {
-                                destroyed: {
-                                    lot: {
-                                        _id: lot._id,
-                                        name: lot.name,
-                                        user_id: lot.user_id
-                                    }
+                            Item.where('lot_id').equals(lot._id).remove(function (err, count) {                                
+                                if (err) {                                    
+                                    res.json('400', {
+                                        error: err
+                                    });
+                                } else {                                    
+                                    res.json('200', {
+                                        destroyed: {
+                                            lot: {
+                                                _id: lot_id,
+                                                name: lot.name,
+                                                user_id: lot.user_id
+                                            }
+                                        }
+                                    });
                                 }
                             });
                         }
