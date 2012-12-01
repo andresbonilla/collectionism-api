@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
 var UserSchema = new Schema({
 	id        : Schema.ObjectId,
 	username  : { type: String, required: true, index: { unique: true, sparse: true }},
-	email     : { type: String, trim: true, index: { unique: true, sparse: true }},
+	email     : { type: String, required: true, trim: true, index: { unique: true, sparse: true }},
 	password  : { type: String, required: true},
 	xp        : { type: Number, default: 0},
 	level     : { type: Number, default: 1},
@@ -15,6 +15,7 @@ var UserSchema = new Schema({
 });
 
 UserSchema.path('username').validate(Validations.uniqueFieldInsensitive('Users', 'username'), 'unique');
+UserSchema.path('email').validate(Validations.uniqueFieldInsensitive('Users', 'email'), 'unique');
 
 
 UserSchema.pre('save', function(next) {

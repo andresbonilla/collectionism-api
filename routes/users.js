@@ -8,6 +8,7 @@ var helper = require('./helper'),
 exports.signup = function (req, res) {
     User.create({
         username: req.body.user.username,
+        email: req.body.user.email,
         password: req.body.user.password
     }, function (err, user) {
         res.contentType('json');

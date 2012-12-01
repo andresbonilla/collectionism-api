@@ -10,8 +10,9 @@ var userCount = 1,
     itemCount = 1;
 
 Factory.define('user', User, {
-    username: function(cb) { cb('testUser'+(userCount++)); },
-    password: 'secret'
+    username: function(cb) { cb('testUser'+(userCount)); },
+    password: 'secret',
+    email: function(cb) { cb('testUser'+(userCount++)+'@gmail.com'); }
 });
 
 Factory.define('lot', Lot, {
