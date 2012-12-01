@@ -41,6 +41,21 @@ describe('User', function () {
                 done();
             });
         });
+        
+        it('returns validation failure for incorrect email format', function (done) {
+            helper.signup({
+                user: {
+                    username: 'testuser',
+                    password: 'secret',
+                    email: '@wrongemailformat.com'
+                }
+            },
+            function (err, res, body) {
+                res.statusCode.should.be.equal(400);
+                body.error.message.should.equal('Validation failed');
+                done();
+            });
+        });
 
         it('returns validation failure for invalid attributes', function (done) {
             helper.signup({
