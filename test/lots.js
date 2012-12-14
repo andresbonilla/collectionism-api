@@ -29,7 +29,7 @@ describe('Lot', function () {
                     res.statusCode.should.be.equal(201);
                     body.lot.should.have.property('_id');
                     body.lot.name.should.equal('testLot')
-                    body.lot.user_id.should.equal(user._id);
+                    body.lot.userId.should.equal(user._id);
                     done();
                 });
             });
@@ -106,7 +106,7 @@ describe('Lot', function () {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;      
                 Factory.create('lot', { 
-                    user_id: user._id 
+                    userId: user._id 
                 }, function (lot) {
                     helper.updateLot({
                         user: {
@@ -154,7 +154,7 @@ describe('Lot', function () {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;
                 Factory.create('lot', {
-                    user_id: user._id
+                    userId: user._id
                 }, function (lot) {    
                     helper.updateLot({
                         user: {
@@ -183,7 +183,7 @@ describe('Lot', function () {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;      
                 Factory.create('lot', { 
-                    user_id: user._id 
+                    userId: user._id 
                 }, function (lot) {
                     helper.destroyLot({
                         user: {
@@ -229,11 +229,11 @@ describe('Lot', function () {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;      
                 Factory.create('lot', { 
-                    user_id: user._id 
+                    userId: user._id 
                 }, function (lot) {
                     Factory.create('item', { 
-                        user_id: user._id,
-                        lot_id: lot._id
+                        userId: user._id,
+                        lotId: lot._id
                     }, function (item) {
                         helper.destroyLot({
                             user: {

@@ -7,9 +7,9 @@ var helper = require('./helper'),
 exports.createComment = function (req, res) {
     helper.authenticate(req, res, function() {
         res.contentType('json');
-        if (req.body.comment.item_id) {
+        if (req.body.comment.itemId) {
             Item.findOne({
-               _id: req.body.comment.item_id 
+               _id: req.body.comment.itemId 
             }, function (err, item) {
                 if (err || !item) {
                     res.json('400', {
@@ -19,8 +19,8 @@ exports.createComment = function (req, res) {
                     });
                 } else {
                     Comment.create({
-                        user_id: req.body.user._id,
-                        item_id: req.body.comment.item_id,
+                        userId: req.body.user._id,
+                        itemId: req.body.comment.itemId,
                         text: req.body.comment.text
                     }, function (err, comment) {
                         if (err) {
@@ -31,8 +31,8 @@ exports.createComment = function (req, res) {
                             res.json('201', {
                                 comment: {
                                     _id: comment._id,
-                                    user_id: comment.user_id,
-                                    item_id: comment.item_id,
+                                    userId: comment.userId,
+                                    itemId: comment.itemId,
                                     text: comment.text
                                 }
                             });
@@ -40,9 +40,9 @@ exports.createComment = function (req, res) {
                     });
                 }
             });
-        } else if (req.body.comment.lot_id) {
+        } else if (req.body.comment.lotId) {
             Lot.findOne({
-               _id: req.body.comment.lot_id 
+               _id: req.body.comment.lotId 
             }, function (err, lot) {
                 if (err || !lot) {
                     res.json('400', {
@@ -52,8 +52,8 @@ exports.createComment = function (req, res) {
                     });
                 } else {
                     Comment.create({
-                        user_id: req.body.user._id,
-                        lot_id: req.body.comment.lot_id,
+                        userId: req.body.user._id,
+                        lotId: req.body.comment.lotId,
                         text: req.body.comment.text
                     }, function (err, comment) {
                         if (err) {
@@ -64,8 +64,8 @@ exports.createComment = function (req, res) {
                             res.json('201', {
                                 comment: {
                                     _id: comment._id,
-                                    user_id: comment.user_id,
-                                    lot_id: comment.lot_id,
+                                    userId: comment.userId,
+                                    lotId: comment.lotId,
                                     text: comment.text
                                 }
                             });
@@ -97,7 +97,7 @@ exports.destroyComment = function (req, res) {
                    } 
                 });
             } else {                
-                if (comment.user_id === req.body.user._id) {
+                if (comment.userId === req.body.user._id) {
                     comment.remove(function(err) {
                         if (err) {
                             res.json('400', {
@@ -108,7 +108,7 @@ exports.destroyComment = function (req, res) {
                                 destroyed: {
                                     comment: {
                                         _id: comment._id,
-                                        item_id: comment.item_id,
+                                        itemId: comment.itemId,
                                         text:comment.text                                
                                     }
                                 }
@@ -116,9 +116,9 @@ exports.destroyComment = function (req, res) {
                         }
                     });
                 } else {
-                    if (comment.item_id) {
+                    if (comment.itemId) {
                         Item.findOne({
-                            _id: comment.item_id
+                            _id: comment.itemId
                         }, function (err, item) {
                             if (err) {
                                 res.json(err);
@@ -129,7 +129,7 @@ exports.destroyComment = function (req, res) {
                                    } 
                                 });
                             } else {
-                                if (item.user_id === req.body.user._id) {
+                                if (item.userId === req.body.user._id) {
                                     comment.remove(function(err) {
                                         if (err) {
                                             res.json('400', {
@@ -140,7 +140,7 @@ exports.destroyComment = function (req, res) {
                                                 destroyed: {
                                                     comment: {
                                                         _id: comment._id,
-                                                        item_id: comment.item_id,
+                                                        itemId: comment.itemId,
                                                         text:comment.text                                
                                                     }
                                                 }
@@ -156,9 +156,9 @@ exports.destroyComment = function (req, res) {
                                 }
                             }
                         });
-                    } else if (comment.lot_id) {
+                    } else if (comment.lotId) {
                         Lot.findOne({
-                            _id: comment.lot_id
+                            _id: comment.lotId
                         }, function (err, lot) {
                             if (err) {
                                 res.json(err);
@@ -169,7 +169,7 @@ exports.destroyComment = function (req, res) {
                                    } 
                                 });
                             } else {
-                                if (lot.user_id === req.body.user._id) {
+                                if (lot.userId === req.body.user._id) {
                                     comment.remove(function(err) {
                                         if (err) {
                                             res.json('400', {
@@ -180,7 +180,7 @@ exports.destroyComment = function (req, res) {
                                                 destroyed: {
                                                     comment: {
                                                         _id: comment._id,
-                                                        lot_id: comment.lot_id,
+                                                        lotId: comment.lotId,
                                                         text:comment.text                                
                                                     }
                                                 }

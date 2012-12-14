@@ -23,14 +23,14 @@ describe('Item', function () {
                              auth_token: user1.auth_token 
                          },
                          follow: {
-                             follower_id: user1._id,
-                             followed_id: user2._id
+                             followerId: user1._id,
+                             followedId: user2._id
                          }
                      },
                      function (err, res, body) {
                          res.statusCode.should.be.equal(201);
-                         body.follow.follower_id.should.equal(user1._id+'');
-                         body.follow.followed_id.should.equal(user2._id+'');
+                         body.follow.followerId.should.equal(user1._id+'');
+                         body.follow.followedId.should.equal(user2._id+'');
                          done();
                      }); 
                  });
@@ -46,8 +46,8 @@ describe('Item', function () {
                           auth_token: user1.auth_token 
                       },
                       follow: {
-                          follower_id: user1._id,
-                          followed_id: 'randomWrongId'
+                          followerId: user1._id,
+                          followedId: 'randomWrongId'
                       }
                   },
                   function (err, res, body) {
@@ -66,7 +66,7 @@ describe('Item', function () {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      
                 Factory.create('follow', { 
-                    follower_id: user._id 
+                    followerId: user._id 
                 }, function (follow) {
                     helper.destroyFollow({
                         user: {
@@ -74,14 +74,14 @@ describe('Item', function () {
                           auth_token: user.auth_token
                         },
                         follow: {
-                            follower_id: user._id,
-                            followed_id: follow.followed_id,
+                            followerId: user._id,
+                            followedId: follow.followedId,
                         }
                     },
                     function (err, res, body) {
                         res.statusCode.should.be.equal(200);
-                        body.destroyed.follow.follower_id.should.equal(user._id);
-                        body.destroyed.follow.followed_id.should.equal(follow.followed_id);
+                        body.destroyed.follow.followerId.should.equal(user._id);
+                        body.destroyed.follow.followedId.should.equal(follow.followedId);
                         done();
                     });
                 });
@@ -92,7 +92,7 @@ describe('Item', function () {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      
                 Factory.create('follow', { 
-                    follower_id: user._id 
+                    followerId: user._id 
                 }, function (follow) {
                     helper.destroyFollow({
                         user: {
@@ -100,8 +100,8 @@ describe('Item', function () {
                           auth_token: user.auth_token
                         },
                         follow: {
-                            follower_id: user._id,
-                            followed_id: 'randomWrongID',
+                            followerId: user._id,
+                            followedId: 'randomWrongID',
                         }
                     },
                     function (err, res, body) {

@@ -7,7 +7,7 @@ exports.createLot = function (req, res) {
     helper.authenticate(req, res, function() {
         Lot.create({
             name: req.body.lot.name,
-            user_id: req.body.user._id
+            userId: req.body.user._id
         }, 
         function (err, lot) {
             res.contentType('json');
@@ -20,7 +20,7 @@ exports.createLot = function (req, res) {
                     lot: {
                         _id: lot._id,
                         name: lot.name,
-                        user_id: lot.user_id
+                        userId: lot.userId
                     }
                 });
             }
@@ -63,7 +63,7 @@ exports.updateLot = function (req, res) {
             if (err) {
                 res.json(err);
             } else {
-                if (lot.user_id === req.body.user._id) {
+                if (lot.userId === req.body.user._id) {
                     lot.name = req.body.lot.name;
                     lot.save(function(err) {
                         if (err) {
@@ -75,7 +75,7 @@ exports.updateLot = function (req, res) {
                                 lot: {
                                     _id: lot._id,
                                     name: lot.name,
-                                    user_id: lot.user_id
+                                    userId: lot.userId
                                 }
                             });
                         }
@@ -102,15 +102,15 @@ exports.destroyLot = function (req, res) {
             if (err) {
                 res.json(err);
             } else {
-                if (lot.user_id === req.body.user._id) {
-                    var lot_id = lot._id;
+                if (lot.userId === req.body.user._id) {
+                    var lotId = lot._id;
                     lot.remove(function(err) {
                         if (err) {
                             res.json('400', {
                                 error: err
                             });
                         } else {
-                            Item.where('lot_id').equals(lot._id).remove(function (err, count) {                                
+                            Item.where('lotId').equals(lot._id).remove(function (err, count) {                                
                                 if (err) {                                    
                                     res.json('400', {
                                         error: err
@@ -119,9 +119,9 @@ exports.destroyLot = function (req, res) {
                                     res.json('200', {
                                         destroyed: {
                                             lot: {
-                                                _id: lot_id,
+                                                _id: lotId,
                                                 name: lot.name,
-                                                user_id: lot.user_id
+                                                userId: lot.userId
                                             }
                                         }
                                     });

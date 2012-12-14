@@ -17,7 +17,7 @@ describe('Item', function () {
             helper.signedInUser(function(err, res, body) {
                 var user = body.user;
                 Factory.create('lot', {
-                    user_id: user._id
+                    userId: user._id
                 }, function(lot) {
                     helper.createItem({
                         user: {
@@ -25,19 +25,19 @@ describe('Item', function () {
                             auth_token: user.auth_token
                         },
                         item: {
-                            lot_id: lot._id,
+                            lotId: lot._id,
                             name: 'testItem',
                             desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                            img_url: 'http://faketesturl.com'
+                            imgUrl: 'http://faketesturl.com'
                         }
                     },
                     function (err, res, body) {
                         res.statusCode.should.be.equal(201);
                         body.item.should.have.property('_id');
-                        body.item.should.have.property('img_url');
+                        body.item.should.have.property('imgUrl');
                         body.item.name.should.equal('testItem')
-                        body.item.user_id.should.equal(user._id+'');
-                        body.item.lot_id.should.equal(lot._id+'');
+                        body.item.userId.should.equal(user._id+'');
+                        body.item.lotId.should.equal(lot._id+'');
                         done();
                     }); 
                 });
@@ -48,7 +48,7 @@ describe('Item', function () {
             helper.signedInUser(function(err, res, body) {
                 var user = body.user;
                 Factory.create('lot', {
-                    user_id: user._id
+                    userId: user._id
                 }, function(lot) {
                     helper.createItem({
                         user: {
@@ -56,7 +56,7 @@ describe('Item', function () {
                             auth_token: user.auth_token 
                         },
                         item: {
-                            lot_id: lot._id,
+                            lotId: lot._id,
                             name: '',
                             desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
                         }
@@ -70,7 +70,7 @@ describe('Item', function () {
             });
         });
         
-        it('returns error for invalid lot_id attribute', function (done) {
+        it('returns error for invalid lotId attribute', function (done) {
             helper.signedInUser(function(err, res, body) {
                 var user = body.user;
                 Factory.create('lot', function(lot) {
@@ -80,7 +80,7 @@ describe('Item', function () {
                             auth_token: user.auth_token 
                         },
                         item: {
-                            lot_id: lot._id,
+                            lotId: lot._id,
                             name: 'testItem',
                             desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
                         }
@@ -145,7 +145,7 @@ describe('Item', function () {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;      
                 Factory.create('item', { 
-                    user_id: user._id 
+                    userId: user._id 
                 }, function (item) {
                     helper.updateItem({
                         user: {
@@ -193,7 +193,7 @@ describe('Item', function () {
             helper.signedInUser(function (err, res, body) {
                var user = body.user;
                Factory.create('item', {
-                   user_id: user._id
+                   userId: user._id
                }, function (item) {    
                    helper.updateItem({
                        user: {
@@ -222,7 +222,7 @@ describe('Item', function () {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;      
                 Factory.create('item', { 
-                    user_id: user._id 
+                    userId: user._id 
                 }, function (item) {
                     helper.destroyItem({
                         user: {

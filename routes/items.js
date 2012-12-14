@@ -7,15 +7,15 @@ exports.createItem = function (req, res) {
     res.contentType('json');
     helper.authenticate(req, res, function() {
         Lot.findOne({
-            _id: req.body.item.lot_id
+            _id: req.body.item.lotId
         }, function (err, lot) {
-            if (lot.user_id === req.body.user._id) {
+            if (lot.userId === req.body.user._id) {
                 Item.create({
                     name: req.body.item.name,
                     desc: req.body.item.desc,
-                    img_url: req.body.item.img_url,
-                    user_id: req.body.user._id,
-                    lot_id: req.body.item.lot_id
+                    imgUrl: req.body.item.imgUrl,
+                    userId: req.body.user._id,
+                    lotId: req.body.item.lotId
                 }, 
                 function (err, item) {
                     if (err) {
@@ -28,9 +28,9 @@ exports.createItem = function (req, res) {
                                 _id: item._id,
                                 name: item.name,
                                 desc: item.desc,
-                                user_id: item.user_id,
-                                lot_id: item.lot_id,
-                                img_url: item.img_url
+                                userId: item.userId,
+                                lotId: item.lotId,
+                                imgUrl: item.imgUrl
                             }
                         });
                     }
@@ -65,9 +65,9 @@ exports.getItem = function (req, res) {
                         _id: item._id,
                         name: item.name,
                         desc: item.desc,
-                        user_id: item.user_id,
-                        lot_id: item.lot_id,
-                        img_url: item.img_url           
+                        userId: item.userId,
+                        lotId: item.lotId,
+                        imgUrl: item.imgUrl           
                     }
                 });
             }
@@ -85,7 +85,7 @@ exports.updateItem = function (req, res) {
             if (err) {
                 res.json(err);
             } else {
-                if (item.user_id === req.body.user._id) {
+                if (item.userId === req.body.user._id) {
                     if(req.body.item.name || req.body.item.desc) {
                         if (req.body.item.name) {
                             item.name = req.body.item.name;
@@ -104,9 +104,9 @@ exports.updateItem = function (req, res) {
                                         _id: item._id,
                                         name: item.name,
                                         desc: item.desc,
-                                        user_id: item.user_id,
-                                        lot_id: item.lot_id,
-                                        img_url: item.img_url
+                                        userId: item.userId,
+                                        lotId: item.lotId,
+                                        imgUrl: item.imgUrl
                                     }
                                 });
                             }
@@ -140,7 +140,7 @@ exports.destroyItem = function (req, res) {
             if (err) {
                 res.json(err);
             } else {
-                if (item.user_id === req.body.user._id) {
+                if (item.userId === req.body.user._id) {
                     item.remove(function(err) {
                         if (err) {
                             res.json('400', {
@@ -153,9 +153,9 @@ exports.destroyItem = function (req, res) {
                                         _id: item._id,
                                         name: item.name,
                                         desc: item.desc,
-                                        user_id: item.user_id,
-                                        lot_id: item.lot_id,
-                                        img_url: item.img_url
+                                        userId: item.userId,
+                                        lotId: item.lotId,
+                                        imgUrl: item.imgUrl
                                     }
                                 }
                             });

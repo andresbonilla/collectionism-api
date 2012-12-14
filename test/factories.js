@@ -18,36 +18,36 @@ Factory.define('user', User, {
 
 Factory.define('lot', Lot, {
     name: function(cb) { cb('testLot'+(lotCount++)); },
-    user_id: Factory.assoc('user', '_id')
+    userId: Factory.assoc('user', '_id')
 });
 
 Factory.define('item', Item, {
     name: function(cb) { cb('testItem'+(itemCount++)); },
     desc: 'Vestibulum id ligula porta felis euismod semper.',
-    user_id: Factory.assoc('user', '_id'),
-    lot_id: Factory.assoc('lot', '_id'),
-    img_url: 'http://testimgurl.com'
+    userId: Factory.assoc('user', '_id'),
+    lotId: Factory.assoc('lot', '_id'),
+    imgUrl: 'http://testimgurl.com'
 });
 
 Factory.define('follow', Follow, {
-    follower_id: Factory.assoc('user', '_id'),
-    followed_id: Factory.assoc('user', '_id')    
+    followerId: Factory.assoc('user', '_id'),
+    followedId: Factory.assoc('user', '_id')    
 });
 
 Factory.define('itemComment', Comment, {
-    user_id: Factory.assoc('user', '_id'),
-    item_id: Factory.assoc('item', '_id'),
+    userId: Factory.assoc('user', '_id'),
+    itemId: Factory.assoc('item', '_id'),
     text: 'sample comment text'
 });
 
 Factory.define('lotComment', Comment, {
-    user_id: Factory.assoc('user', '_id'),
-    lot_id: Factory.assoc('lot', '_id'),
+    userId: Factory.assoc('user', '_id'),
+    lotId: Factory.assoc('lot', '_id'),
     text: 'sample comment text'
 });
 
 Factory.define('itemTagging', Comment, {
-    item_id: Factory.assoc('item', '_id'),
+    itemId: Factory.assoc('item', '_id'),
     tag_text: 'sampleTagText'
 });
 

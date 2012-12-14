@@ -23,7 +23,7 @@ describe('Comment', function () {
                             auth_token: user.auth_token
                         },
                         comment: {
-                            item_id: item._id,
+                            itemId: item._id,
                             text: 'Sample comment text'
                         }
                     },
@@ -31,8 +31,8 @@ describe('Comment', function () {
                         res.statusCode.should.be.equal(201);
                         body.comment.should.have.property('_id');
                         body.comment.text.should.equal('Sample comment text');
-                        body.comment.item_id.should.equal(item._id+'');
-                        body.comment.user_id.should.equal(user._id+'');
+                        body.comment.itemId.should.equal(item._id+'');
+                        body.comment.userId.should.equal(user._id+'');
                         done();
                     }); 
                 });
@@ -49,7 +49,7 @@ describe('Comment', function () {
                             auth_token: user.auth_token
                         },
                         comment: {
-                            lot_id: lot._id,
+                            lotId: lot._id,
                             text: 'Sample comment text'
                         }
                     },
@@ -57,8 +57,8 @@ describe('Comment', function () {
                         res.statusCode.should.be.equal(201);
                         body.comment.should.have.property('_id');
                         body.comment.text.should.equal('Sample comment text');
-                        body.comment.lot_id.should.equal(lot._id+'');
-                        body.comment.user_id.should.equal(user._id+'');
+                        body.comment.lotId.should.equal(lot._id+'');
+                        body.comment.userId.should.equal(user._id+'');
                         done();
                     }); 
                 });
@@ -75,7 +75,7 @@ describe('Comment', function () {
                              auth_token: user.auth_token
                          },
                          comment: {
-                             item_id: item._id,
+                             itemId: item._id,
                              text: ''
                          }
                      },
@@ -97,7 +97,7 @@ describe('Comment', function () {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      
                 Factory.create('itemComment', { 
-                    user_id: user._id 
+                    userId: user._id 
                 }, function (comment) {
                     helper.destroyComment({
                         user: {
@@ -121,7 +121,7 @@ describe('Comment', function () {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      
                 Factory.create('lotComment', { 
-                    user_id: user._id 
+                    userId: user._id 
                 }, function (comment) {
                     helper.destroyComment({
                         user: {
@@ -145,7 +145,7 @@ describe('Comment', function () {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      
                 Factory.create('itemComment', { 
-                    user_id: user._id 
+                    userId: user._id 
                 }, function (comment) {
                     helper.destroyComment({
                         user: {
