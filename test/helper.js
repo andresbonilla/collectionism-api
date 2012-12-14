@@ -4,6 +4,7 @@ var factories = require('./factories'),
           Lot = require('../models/Lot'),
          Item = require('../models/Item'),
        Follow = require('../models/Follow'),
+      Tagging = require('../models/Tagging'),
       Comment = require('../models/Comment'),
          http = require('request'),
           url = 'http://localhost:5000',
@@ -32,7 +33,9 @@ exports.cleanDB = function(done) {
             Item.collection.drop(function(err) {
                 Follow.collection.drop(function(err) {
                     Comment.collection.drop(function(err) {
-                        done(err);
+                        Tagging.collection.drop(function(err) {
+                            done(err);
+                        });
                     });
                 });
             });
@@ -186,7 +189,7 @@ exports.destroyFollow = function(params, done) {
     }, done);
 }
 
-/* Followers */
+/* Comments */
 
 exports.createComment = function(params, done) {
     exports.JSON ({
@@ -200,6 +203,16 @@ exports.destroyComment = function(params, done) {
     exports.JSON ({
         verb: 'DELETE',
         url: url + '/comments/',
+        body: params
+    }, done);
+}
+
+/* Tagging */
+
+exports.createTagging = function(params, done) {
+    exports.JSON ({
+        verb: 'POST',
+        url: url + '/taggings', 
         body: params
     }, done);
 }
