@@ -31,8 +31,8 @@ describe('Comment', function () {
                         res.statusCode.should.be.equal(201);
                         body.comment.should.have.property('_id');
                         body.comment.text.should.equal('Sample comment text');
-                        body.comment.itemId.should.equal(item._id+'');
-                        body.comment.userId.should.equal(user._id+'');
+                        body.comment.itemId.should.equal(item._id.toString());
+                        body.comment.userId.should.equal(user._id.toString());
                         done();
                     }); 
                 });
@@ -57,8 +57,8 @@ describe('Comment', function () {
                         res.statusCode.should.be.equal(201);
                         body.comment.should.have.property('_id');
                         body.comment.text.should.equal('Sample comment text');
-                        body.comment.lotId.should.equal(lot._id+'');
-                        body.comment.userId.should.equal(user._id+'');
+                        body.comment.lotId.should.equal(lot._id.toString());
+                        body.comment.userId.should.equal(user._id.toString());
                         done();
                     }); 
                 });
@@ -110,7 +110,7 @@ describe('Comment', function () {
                     },
                     function (err, res, body) {
                         res.statusCode.should.be.equal(200);
-                        body.destroyed.comment._id.should.equal(comment._id+'');
+                        body.destroyed.comment._id.should.equal(comment._id.toString());
                         done();
                     });
                 });
@@ -134,7 +134,7 @@ describe('Comment', function () {
                     },
                     function (err, res, body) {
                         res.statusCode.should.be.equal(200);
-                        body.destroyed.comment._id.should.equal(comment._id+'');
+                        body.destroyed.comment._id.should.equal(comment._id.toString());
                         done();
                     });
                 });

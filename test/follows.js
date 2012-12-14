@@ -29,8 +29,8 @@ describe('Item', function () {
                      },
                      function (err, res, body) {
                          res.statusCode.should.be.equal(201);
-                         body.follow.followerId.should.equal(user1._id+'');
-                         body.follow.followedId.should.equal(user2._id+'');
+                         body.follow.followerId.should.equal(user1._id.toString());
+                         body.follow.followedId.should.equal(user2._id.toString());
                          done();
                      }); 
                  });

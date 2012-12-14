@@ -196,7 +196,7 @@ describe('Lot', function () {
                     },
                     function (err, res, body) {
                         res.statusCode.should.be.equal(200);
-                        body.destroyed.lot._id.should.equal(lot._id+'');
+                        body.destroyed.lot._id.should.equal(lot._id.toString());
                         done();
                     });
                 });

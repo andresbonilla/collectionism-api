@@ -36,8 +36,8 @@ describe('Item', function () {
                         body.item.should.have.property('_id');
                         body.item.should.have.property('imgUrl');
                         body.item.name.should.equal('testItem')
-                        body.item.userId.should.equal(user._id+'');
-                        body.item.lotId.should.equal(lot._id+'');
+                        body.item.userId.should.equal(user._id.toString());
+                        body.item.lotId.should.equal(lot._id.toString());
                         done();
                     }); 
                 });
@@ -235,7 +235,7 @@ describe('Item', function () {
                     },
                     function (err, res, body) {
                         res.statusCode.should.be.equal(200);
-                        body.destroyed.item._id.should.equal(item._id+'');
+                        body.destroyed.item._id.should.equal(item._id.toString());
                         done();
                     });
                 });
