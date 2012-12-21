@@ -27,11 +27,11 @@ exports.JSON = function(params, done) {
   
 exports.cleanDB = function(done) {
     // TODO: find a less hard-coded way to drop all collections
-    User.collection.drop(function(err) {
-        Lot.collection.drop(function(err) {
-            Item.collection.drop(function(err) {
-                Follow.collection.drop(function(err) {
-                    Comment.collection.drop(function(err) {
+    User.remove(function(err) {
+        Lot.remove(function(err) {
+            Item.remove(function(err) {
+                Follow.remove(function(err) {
+                    Comment.remove(function(err) {
                         done(err);
                     });
                 });
