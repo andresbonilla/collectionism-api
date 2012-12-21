@@ -3,9 +3,8 @@ var Factory = require('factory-lady'),
         Lot = require('../models/Lot'),
        Item = require('../models/Item')
      Follow = require('../models/Follow'),
-    Comment = require('../models/Comment'),
-    Tagging = require('../models/Tagging');
-    
+    Comment = require('../models/Comment');
+
 var userCount = 1,
      lotCount = 1,
     itemCount = 1;
@@ -31,7 +30,7 @@ Factory.define('item', Item, {
 
 Factory.define('follow', Follow, {
     followerId: Factory.assoc('user', '_id'),
-    followedId: Factory.assoc('user', '_id')    
+    followedId: Factory.assoc('user', '_id')
 });
 
 Factory.define('itemComment', Comment, {
@@ -44,14 +43,4 @@ Factory.define('lotComment', Comment, {
     userId: Factory.assoc('user', '_id'),
     lotId: Factory.assoc('lot', '_id'),
     text: 'sample comment text'
-});
-
-Factory.define('itemTagging', Comment, {
-    itemId: Factory.assoc('item', '_id'),
-    tag_text: 'sampleTagText'
-});
-
-Factory.define('lotTagging', Comment, {
-    lotId: Factory.assoc('lot', '_id'),
-    tagText: 'sampleTagText'
 });

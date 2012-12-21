@@ -7,4 +7,3 @@ exports.lots = require('./lots');
 exports.items = require('./items');
 exports.follows = require('./follows');
 exports.comments = require('./comments');
-exports.taggings = require('./taggings');
