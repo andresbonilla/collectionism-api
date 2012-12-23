@@ -2,7 +2,19 @@ var helper = require('./helper'),
    Comment = require('../models/Comment'),
       Item = require('../models/Item'),
        Lot = require('../models/Lot');
-       
+
+function tagsInComment(comment) {
+    var tags = comment.match(/#([A-Za-z0-9_]+)/g);
+    if (tags && tags.length > 0) {
+        tags = Array.prototype.map.call(tags, function (tag) {
+            return tag.toLowerCase().replace('#','');
+        }) ;
+        return tags;
+    } else {
+        return null;
+    }
+}
+
 // POST /comments
 exports.createComment = function (req, res) {
     helper.authenticate(req, res, function() {
@@ -28,14 +40,36 @@ exports.createComment = function (req, res) {
                                 error: err
                             });
                         } else {
-                            res.json('201', {
-                                comment: {
-                                    _id: comment._id,
-                                    userId: comment.userId,
-                                    itemId: comment.itemId,
-                                    text: comment.text
-                                }
-                            });
+                            var newTags = tagsInComment(comment.text);
+                            if (newTags) {
+                                Item.update({ _id:item._id }, { $addToSet: { tags: { $each: newTags }}}, function (err, numberAffected, raw) {
+                                  if (err) {
+                                      res.json('400', {
+                                          error: {
+                                              message: err
+                                          }
+                                      });
+                                  } else {
+                                      res.json('201', {
+                                          comment: {
+                                              _id: comment._id,
+                                              userId: comment.userId,
+                                              itemId: comment.itemId,
+                                              text: comment.text
+                                          }
+                                      });
+                                  }
+                                });
+                            } else {
+                                res.json('201', {
+                                    comment: {
+                                        _id: comment._id,
+                                        userId: comment.userId,
+                                        itemId: comment.itemId,
+                                        text: comment.text
+                                    }
+                                });
+                            }
                         }
                     });
                 }

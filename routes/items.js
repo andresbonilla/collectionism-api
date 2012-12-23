@@ -30,7 +30,8 @@ exports.createItem = function (req, res) {
                                 desc: item.desc,
                                 userId: item.userId,
                                 lotId: item.lotId,
-                                imgUrl: item.imgUrl
+                                imgUrl: item.imgUrl,
+                                tags: item.tags
                             }
                         });
                     }
@@ -67,7 +68,8 @@ exports.getItem = function (req, res) {
                         desc: item.desc,
                         userId: item.userId,
                         lotId: item.lotId,
-                        imgUrl: item.imgUrl           
+                        imgUrl: item.imgUrl,
+                        tags: item.tags
                     }
                 });
             }
@@ -106,7 +108,8 @@ exports.updateItem = function (req, res) {
                                         desc: item.desc,
                                         userId: item.userId,
                                         lotId: item.lotId,
-                                        imgUrl: item.imgUrl
+                                        imgUrl: item.imgUrl,
+                                        tags: item.tags
                                     }
                                 });
                             }
@@ -155,7 +158,8 @@ exports.destroyItem = function (req, res) {
                                         desc: item.desc,
                                         userId: item.userId,
                                         lotId: item.lotId,
-                                        imgUrl: item.imgUrl
+                                        imgUrl: item.imgUrl,
+                                        tags: item.tags
                                     }
                                 }
                             });
