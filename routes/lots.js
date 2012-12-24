@@ -20,7 +20,8 @@ exports.createLot = function (req, res) {
                     lot: {
                         _id: lot._id,
                         name: lot.name,
-                        userId: lot.userId
+                        userId: lot.userId,
+                        tags: lot.tags
                     }
                 });
             }
@@ -45,7 +46,8 @@ exports.getLot = function (req, res) {
                 res.json('200', {
                     lot: {
                         _id: lot._id,
-                        name: lot.name
+                        name: lot.name,
+                        tags: lot.tags
                     }
                 });
             }
@@ -75,7 +77,8 @@ exports.updateLot = function (req, res) {
                                 lot: {
                                     _id: lot._id,
                                     name: lot.name,
-                                    userId: lot.userId
+                                    userId: lot.userId,
+                                    tags: lot.tags
                                 }
                             });
                         }
@@ -121,7 +124,8 @@ exports.destroyLot = function (req, res) {
                                             lot: {
                                                 _id: lotId,
                                                 name: lot.name,
-                                                userId: lot.userId
+                                                userId: lot.userId,
+                                                tags: lot.tags
                                             }
                                         }
                                     });

@@ -95,14 +95,36 @@ exports.createComment = function (req, res) {
                                 error: err
                             });
                         } else {
-                            res.json('201', {
-                                comment: {
-                                    _id: comment._id,
-                                    userId: comment.userId,
-                                    lotId: comment.lotId,
-                                    text: comment.text
-                                }
-                            });
+                            var newTags = tagsInComment(comment.text);
+                            if (newTags) {
+                                Lot.update({ _id:lot._id }, { $addToSet: { tags: { $each: newTags }}}, function (err) {
+                                  if (err) {
+                                      res.json('400', {
+                                          error: {
+                                              message: err
+                                          }
+                                      });
+                                  } else {
+                                      res.json('201', {
+                                          comment: {
+                                              _id: comment._id,
+                                              userId: comment.userId,
+                                              lotId: comment.lotId,
+                                              text: comment.text
+                                          }
+                                      });
+                                  }
+                                });
+                            } else {
+                                res.json('201', {
+                                    comment: {
+                                        _id: comment._id,
+                                        userId: comment.userId,
+                                        lotId: comment.lotId,
+                                        text: comment.text
+                                    }
+                                });
+                            }
                         }
                     });
                 }
