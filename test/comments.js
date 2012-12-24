@@ -86,7 +86,34 @@ describe('Comment', function () {
                      }); 
                  });
              });
-            
+        });
+        
+        it('does not create comment when the text is over 10,000 chars', function (done) {
+             helper.signedInUser(function(err, res, body) {
+                 var longText = '';
+                 while(longText.length <= 10000) {
+                     longText += 'x';
+                 }
+                 
+                 var user = body.user;
+                 Factory.create('item', function(item) {
+                     helper.createComment({
+                         user: {
+                             _id: user._id,
+                             auth_token: user.auth_token
+                         },
+                         comment: {
+                             itemId: item._id,
+                             text: longText
+                         }
+                     },
+                     function (err, res, body) {
+                         res.statusCode.should.be.equal(400);
+                         body.error.message.should.equal('Validation failed');
+                         done();
+                     }); 
+                 });
+             });
         });
         
     });
