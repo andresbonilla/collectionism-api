@@ -3,7 +3,7 @@ var Factory = require('factory-lady'),
      should = require('should'),
        http = require('request');
 
-describe('Item', function () {
+describe('Follow', function () {
 
     beforeEach(function (done) {
         helper.cleanDB(function () {
@@ -24,13 +24,13 @@ describe('Item', function () {
                          },
                          follow: {
                              followerId: user1._id,
-                             followedId: user2._id
+                             followeeId: user2._id
                          }
                      },
                      function (err, res, body) {
                          res.statusCode.should.be.equal(201);
                          body.follow.followerId.should.equal(user1._id.toString());
-                         body.follow.followedId.should.equal(user2._id.toString());
+                         body.follow.followeeId.should.equal(user2._id.toString());
                          done();
                      }); 
                  });
@@ -47,7 +47,7 @@ describe('Item', function () {
                       },
                       follow: {
                           followerId: user1._id,
-                          followedId: 'randomWrongId'
+                          followeeId: 'randomWrongId'
                       }
                   },
                   function (err, res, body) {
@@ -75,20 +75,20 @@ describe('Item', function () {
                         },
                         follow: {
                             followerId: user._id,
-                            followedId: follow.followedId,
+                            followeeId: follow.followeeId,
                         }
                     },
                     function (err, res, body) {
                         res.statusCode.should.be.equal(200);
-                        body.destroyed.follow.followerId.should.equal(user._id);
-                        body.destroyed.follow.followedId.should.equal(follow.followedId);
+                        body.destroyed.follow.followerId.should.equal(user._id.toString());
+                        body.destroyed.follow.followeeId.should.equal(follow.followeeId.toString());
                         done();
                     });
                 });
             });
         });
         
-        it('does not destroy a follow for invalid followed id', function (done) {
+        it('does not destroy a follow for invalid followee id', function (done) {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      
                 Factory.create('follow', { 
@@ -101,12 +101,12 @@ describe('Item', function () {
                         },
                         follow: {
                             followerId: user._id,
-                            followedId: 'randomWrongID',
+                            followeeId: 'randomWrongID',
                         }
                     },
                     function (err, res, body) {
-                        res.statusCode.should.be.equal(400);
-                        body.error.message.should.equal('Bad followed ID');
+                        res.statusCode.should.be.equal(200);
+                        body.message.should.equal('Cast to ObjectId failed for value "randomWrongID" at path "followeeId"');
                         done();
                     });
                 });

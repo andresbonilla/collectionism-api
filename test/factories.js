@@ -30,7 +30,7 @@ Factory.define('item', Item, {
 
 Factory.define('follow', Follow, {
     followerId: Factory.assoc('user', '_id'),
-    followedId: Factory.assoc('user', '_id')
+    followeeId: Factory.assoc('user', '_id')
 });
 
 Factory.define('itemComment', Comment, {

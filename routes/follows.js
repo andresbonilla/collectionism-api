@@ -7,7 +7,7 @@ exports.createFollow = function (req, res) {
     helper.authenticate(req, res, function() {
         res.contentType('json');
         User.findOne({
-            _id: req.body.follow.followedId
+            _id: req.body.follow.followeeId
         }, function (err, user) {
             if (err) {
                 res.json('400', {
@@ -18,7 +18,7 @@ exports.createFollow = function (req, res) {
             } else {
                 Follow.create({
                     followerId: req.body.follow.followerId,
-                    followedId: req.body.follow.followedId
+                    followeeId: req.body.follow.followeeId
                 }, 
                 function (err, follow) {
                     if (err) {
@@ -29,7 +29,7 @@ exports.createFollow = function (req, res) {
                         res.json('201', {
                             follow: {
                                 followerId: follow.followerId,
-                                followedId: follow.followedId
+                                followeeId: follow.followeeId
                             }
                         });
                     }
@@ -45,14 +45,14 @@ exports.destroyFollow = function (req, res) {
         res.contentType('json');
         Follow.findOne({
             followerId: req.body.user._id,
-            followedId: req.body.follow.followedId
+            followeeId: req.body.follow.followeeId
         }, function (err, follow) {
             if (err) {
                 res.json(err);
             } else if (!follow) {
                 res.json('400', {
                    error: {
-                       message: 'Bad followed ID'
+                       message: 'Bad followee ID'
                    } 
                 });
             } else {
@@ -66,7 +66,7 @@ exports.destroyFollow = function (req, res) {
                             destroyed: {
                                 follow: {
                                     followerId: follow.followerId,
-                                    followedId: follow.followedId                                    
+                                    followeeId: follow.followeeId                                    
                                 }
                             }
                         });
