@@ -87,14 +87,14 @@ describe('Comment', function () {
                  });
              });
         });
-        
+
         it('does not create comment when the text is over 10,000 chars', function (done) {
              helper.signedInUser(function(err, res, body) {
                  var longText = '';
                  while(longText.length <= 10000) {
                      longText += 'x';
                  }
-                 
+
                  var user = body.user;
                  Factory.create('item', function(item) {
                      helper.createComment({
@@ -115,9 +115,9 @@ describe('Comment', function () {
                  });
              });
         });
-        
+
     });
-    
+
     describe('tagging', function () {
 
         it('adds hashtags to an item through commenting', function (done) {
@@ -156,7 +156,7 @@ describe('Comment', function () {
                 });
             });
         });
-        
+
         it('adds hashtags to a lot through commenting', function (done) {
             helper.signedInUser(function(err, res, body) {
                 var user = body.user;
@@ -193,12 +193,12 @@ describe('Comment', function () {
                 });
             });
         });
-        
+
     });
-    
+
     describe('destroy', function () {
 
-        it('destroys an item comment for valid params', function (done) {
+        it('lets a comment author destroy the comment on an item', function (done) {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      
                 Factory.create('itemComment', { 
@@ -221,8 +221,36 @@ describe('Comment', function () {
                 });
             });
         });
-        
-        it('destroys a lot comment for valid params', function (done) {
+
+        it('lets an item owner destroy a comment on that item', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;  
+                Factory.create('item', {
+                    userId: user._id
+                }, function (item) {
+                    Factory.create('itemComment', { 
+                        itemId: item._id
+                    }, function (comment) {
+                        helper.destroyComment({
+                            user: {
+                              _id: user._id,
+                              auth_token: user.auth_token
+                            },
+                            comment: {
+                                _id: comment._id,
+                            }
+                        },
+                        function (err, res, body) {
+                            res.statusCode.should.be.equal(200);
+                            body.destroyed.comment._id.should.equal(comment._id.toString());
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
+        it('lets a comment author destroy the comment on a lot', function (done) {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      
                 Factory.create('lotComment', { 
@@ -245,7 +273,35 @@ describe('Comment', function () {
                 });
             });
         });
-        
+
+        it('lets a lot owner destroy a comment on that lot', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;  
+                Factory.create('lot', {
+                    userId: user._id
+                }, function (lot) {
+                    Factory.create('lotComment', { 
+                        lotId: lot._id
+                    }, function (comment) {
+                        helper.destroyComment({
+                            user: {
+                              _id: user._id,
+                              auth_token: user.auth_token
+                            },
+                            comment: {
+                                _id: comment._id,
+                            }
+                        },
+                        function (err, res, body) {
+                            res.statusCode.should.be.equal(200);
+                            body.destroyed.comment._id.should.equal(comment._id.toString());
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
         it('does not destroy a comment for invalid comment id', function (done) {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      

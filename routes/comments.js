@@ -145,7 +145,7 @@ exports.destroyComment = function (req, res) {
         res.contentType('json');
         Comment.findOne({
             _id: req.body.comment._id
-        }, function (err, comment) {                
+        }, function (err, comment) {
             if (err || !comment) {
                 res.json('400', {
                    error: {
@@ -153,7 +153,7 @@ exports.destroyComment = function (req, res) {
                    } 
                 });
             } else {                
-                if (comment.userId === req.body.user._id) {
+                if (comment.userId.toString() === req.body.user._id.toString()) {                    
                     comment.remove(function(err) {
                         if (err) {
                             res.json('400', {
@@ -165,7 +165,7 @@ exports.destroyComment = function (req, res) {
                                     comment: {
                                         _id: comment._id,
                                         itemId: comment.itemId,
-                                        text:comment.text                                
+                                        text:comment.text
                                     }
                                 }
                             });
@@ -185,7 +185,7 @@ exports.destroyComment = function (req, res) {
                                    } 
                                 });
                             } else {
-                                if (item.userId === req.body.user._id) {
+                                if (item.userId.toString() === req.body.user._id.toString()) {
                                     comment.remove(function(err) {
                                         if (err) {
                                             res.json('400', {
@@ -225,7 +225,7 @@ exports.destroyComment = function (req, res) {
                                    } 
                                 });
                             } else {
-                                if (lot.userId === req.body.user._id) {
+                                if (lot.userId.toString() === req.body.user._id.toString()) {
                                     comment.remove(function(err) {
                                         if (err) {
                                             res.json('400', {
@@ -237,7 +237,7 @@ exports.destroyComment = function (req, res) {
                                                     comment: {
                                                         _id: comment._id,
                                                         lotId: comment.lotId,
-                                                        text:comment.text                                
+                                                        text:comment.text
                                                     }
                                                 }
                                             });
