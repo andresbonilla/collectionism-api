@@ -43,36 +43,44 @@ exports.createFollow = function (req, res) {
 exports.destroyFollow = function (req, res) {
     helper.authenticate(req, res, function() {
         res.contentType('json');
-        Follow.findOne({
-            followerId: req.body.user._id,
-            followeeId: req.body.follow.followeeId
-        }, function (err, follow) {
-            if (err) {
-                res.json(err);
-            } else if (!follow) {
-                res.json('400', {
-                   error: {
-                       message: 'Bad followee ID'
-                   } 
-                });
-            } else {
-                follow.remove(function(err) {
-                    if (err) {
-                        res.json('400', {
-                            error: err
-                        });
-                    } else {
-                        res.json('200', {
-                            destroyed: {
-                                follow: {
-                                    followerId: follow.followerId,
-                                    followeeId: follow.followeeId                                    
+        if (req.body.user._id === req.body.follow.followerId) {
+            Follow.findOne({
+                followerId: req.body.follow.followerId,
+                followeeId: req.body.follow.followeeId
+            }, function (err, follow) {
+                if (err) {
+                    res.json(err);
+                } else if (!follow) {
+                    res.json('400', {
+                       error: {
+                           message: 'That follower is not following that followee'
+                       } 
+                    });
+                } else {
+                    follow.remove(function(err) {
+                        if (err) {
+                            res.json('400', {
+                                error: err
+                            });
+                        } else {
+                            res.json('200', {
+                                destroyed: {
+                                    follow: {
+                                        followerId: follow.followerId,
+                                        followeeId: follow.followeeId                                    
+                                    }
                                 }
-                            }
-                        });
-                    }
-                });
-            }
-        });            
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            res.json('400', {
+               error: {
+                   message: 'Bad follower ID'
+               } 
+            });
+        }
     });
 }

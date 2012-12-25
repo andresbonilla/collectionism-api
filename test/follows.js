@@ -88,7 +88,7 @@ describe('Follow', function () {
             });
         });
         
-        it('does not destroy a follow for invalid followee id', function (done) {
+        it('does not destroy a follow for invalid follower-followee combination', function (done) {
             helper.signedInUser(function (err, res, body) {
                 var user = body.user;                      
                 Factory.create('follow', { 
@@ -101,12 +101,35 @@ describe('Follow', function () {
                         },
                         follow: {
                             followerId: user._id,
-                            followeeId: 'randomWrongID',
+                            followeeId: user._id,
                         }
                     },
                     function (err, res, body) {
-                        res.statusCode.should.be.equal(200);
-                        body.message.should.equal('Cast to ObjectId failed for value "randomWrongID" at path "followeeId"');
+                        res.statusCode.should.be.equal(400);
+                        body.error.message.should.equal('That follower is not following that followee');
+                        done();
+                    });
+                });
+            });
+        });
+        
+        it('does not destroy a follow for invalid follower id', function (done) {
+            helper.signedInUser(function (err, res, body) {
+                var user = body.user;                      
+                Factory.create('follow', function (follow) {
+                    helper.destroyFollow({
+                        user: {
+                          _id: user._id,
+                          auth_token: user.auth_token
+                        },
+                        follow: {
+                            followerId: follow.followerId,
+                            followeeId: follow.followeeId
+                        }
+                    },
+                    function (err, res, body) {
+                        res.statusCode.should.be.equal(400);
+                        body.error.message.should.equal('Bad follower ID');
                         done();
                     });
                 });
