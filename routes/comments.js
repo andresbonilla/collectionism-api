@@ -206,7 +206,7 @@ exports.destroyComment = function (req, res) {
                                 } else {
                                     res.json('400', {
                                        error: {
-                                           message: 'You do not own this comment or item.'
+                                           message: 'Bad user ID'
                                        } 
                                     });
                                 }
@@ -246,7 +246,7 @@ exports.destroyComment = function (req, res) {
                                 } else {
                                     res.json('400', {
                                        error: {
-                                           message: 'You do not own this comment or lot.'
+                                           message: 'Bad user ID'
                                        } 
                                     });
                                 }
