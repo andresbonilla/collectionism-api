@@ -20,6 +20,7 @@
 	"devDependencies": {
 	 	"should": "1.2.0",
 		"request": "2.11.4",
-		"factory-lady": "0.1.0"
+		"factory-lady": "0.1.0",
+		"cucumber": "latest"
 	  }
 }

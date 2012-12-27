@@ -17,7 +17,8 @@ Factory.define('user', User, {
 
 Factory.define('lot', Lot, {
     name: function(cb) { cb('testLot'+(lotCount++)); },
-    userId: Factory.assoc('user', '_id')
+    userId: Factory.assoc('user', '_id'),
+    tags: []
 });
 
 Factory.define('item', Item, {
@@ -25,7 +26,8 @@ Factory.define('item', Item, {
     desc: 'Vestibulum id ligula porta felis euismod semper.',
     userId: Factory.assoc('user', '_id'),
     lotId: Factory.assoc('lot', '_id'),
-    imgUrl: 'http://testimgurl.com'
+    imgUrl: 'http://testimgurl.com',
+    tags:[]
 });
 
 Factory.define('follow', Follow, {
