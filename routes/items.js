@@ -9,7 +9,7 @@ exports.createItem = function (req, res) {
         Lot.findOne({
             _id: req.body.item.lotId
         }, function (err, lot) {
-            if (lot.userId === req.body.user._id) {
+            if (lot.userId.toString() === req.body.user._id.toString()) {
                 Item.create({
                     name: req.body.item.name,
                     desc: req.body.item.desc,
@@ -87,7 +87,7 @@ exports.updateItem = function (req, res) {
             if (err) {
                 res.json(err);
             } else {
-                if (item.userId === req.body.user._id) {
+                if (item.userId.toString() === req.body.user._id.toString()) {
                     if(req.body.item.name || req.body.item.desc) {
                         if (req.body.item.name) {
                             item.name = req.body.item.name;
@@ -143,7 +143,7 @@ exports.destroyItem = function (req, res) {
             if (err) {
                 res.json(err);
             } else {
-                if (item.userId === req.body.user._id) {
+                if (item.userId.toString() === req.body.user._id.toString()) {
                     item.remove(function(err) {
                         if (err) {
                             res.json('400', {
