@@ -65,7 +65,7 @@ exports.updateLot = function (req, res) {
             if (err) {
                 res.json(err);
             } else {
-                if (lot.userId === req.body.user._id) {
+                if (lot.userId.toString() === req.body.user._id.toString()) {
                     lot.name = req.body.lot.name;
                     lot.save(function(err) {
                         if (err) {
@@ -105,7 +105,7 @@ exports.destroyLot = function (req, res) {
             if (err) {
                 res.json(err);
             } else {
-                if (lot.userId === req.body.user._id) {
+                if (lot.userId.toString() === req.body.user._id.toString()) {
                     var lotId = lot._id;
                     lot.remove(function(err) {
                         if (err) {

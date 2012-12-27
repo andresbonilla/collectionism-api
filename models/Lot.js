@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 var LotSchema = new Schema({
 	id      : Schema.ObjectId,
 	name    : { type: String, required: true, index: { unique: false, sparse: true }},
-	userId  : { type: String, required: true, index: { unique: false, sparse: true }},
+	userId  : { type: Schema.Types.ObjectId, ref: 'user', required: true, index: { unique: false, sparse: true }},
 	tags: [String]
 });
 
